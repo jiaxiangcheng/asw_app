@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @news.title %>
+</p>
+
+<p>
+  <strong>Site:</strong>
+  <%= @news.site %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @news.body %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @news.points %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @news.author %>
+</p>
+
+<p>
+  <strong>Num comments:</strong>
+  <%= @news.num_comments %>
+</p>
+
+<p>
+  <strong>Is voted:</strong>
+  <%= @news.is_voted %>
+</p>
+
+<%= link_to 'Edit', edit_news_path(@news) %> |
+<%= link_to 'Back', news_index_path %>
