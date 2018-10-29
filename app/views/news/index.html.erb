@@ -12,6 +12,18 @@
 	<div style="margin: auto"><%= link_to 'Submit', new_news_path %></div>
 </div>
 
+<ol>
+  <% @news.each do |news| %>
+    <% unless news.site == "" %>
+      <li>
+        <strong><%= link_to news.title, news %> (<%= news.site %>)</strong>
+        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%></p>
+      </li>
+    <% end %>
+  <% end %>
+</ol>
+
+<% if false %>
 <table>
   <thead>
     <tr>
@@ -43,5 +55,6 @@
     <% end %>
   </tbody>
 </table>
+<% end %>
 
 <br>
