@@ -1,5 +1,21 @@
 # README
 
+Authors:
+* Jia Xiang
+* Fabio d'Aquino Hilt
+* Arnau Coromina
+* Nil Font
+
+Heroku deploy:
+https://aswlab.herokuapp.com/
+
+git clone ...
+bundle install --without production
+rails db:migrate RAILS_ENV=development
+
+
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
