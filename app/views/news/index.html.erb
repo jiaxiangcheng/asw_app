@@ -5,7 +5,7 @@
     <% unless news.site == "" %>
       <li>
         <strong><%= link_to news.title, news %> (<%= news.site %>)</strong>
-        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%> <button>hide</button></p>
+        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%></p>
         <p><%= news.num_comments %> comments</p>  
       </li>
     <% end %>
