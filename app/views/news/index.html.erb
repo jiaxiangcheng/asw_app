@@ -1,23 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<div class="grid-container">
-	<div><p>Hacker News</p></div>
-	<div><p>wellcome</p></div>
-	<div><p>new</p></div>
-	<div><p>threads</p></div>
-	<div><p>comments</p></div>
-	<div><p>show</p></div>
-	<div><p>ask</p></div>
-	<div><p>jobs</p></div>
-	<div style="margin: auto"><%= link_to 'Submit', new_news_path %></div>
-</div>
-
 <ol>
   <% @news.each do |news| %>
     <% unless news.site == "" %>
       <li>
         <strong><%= link_to news.title, news %> (<%= news.site %>)</strong>
-        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%></p>
+        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%> <button>hide</button></p>
+        <p><%= news.num_comments %> comments</p>  
       </li>
     <% end %>
   <% end %>

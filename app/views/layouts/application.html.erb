@@ -8,6 +8,18 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
+  <div class="grid-container">
+    <div style="margin: auto"><strong><%= link_to 'Hacker News', root_path %></strong></div>
+    <div><p>wellcome</p></div>
+    <div style="margin: auto"><%= link_to 'new',  newest_path %></div>
+    <div><p>threads</p></div>
+    <div><p>comments</p></div>
+    <div><p>show</p></div>
+    <div><p>ask</p></div>
+    <div><p>jobs</p></div>
+    <div style="margin: auto"><%= link_to 'Submit', new_news_path %></div>
+  </div>
+
   <body>
     <%= yield %>
   </body>

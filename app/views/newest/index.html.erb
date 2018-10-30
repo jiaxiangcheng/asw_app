@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<ol>
+    <% @news.each do |news| %>
+      <li>
+        <strong><%= link_to news.title, news %> (<%= news.site %>)</strong>
+        <p style="color: grey"><%= news.points %> by <%= news.author %> create at: <%= news.created_at%></p>
+      </li>
+    <% end %>
+</ol>
