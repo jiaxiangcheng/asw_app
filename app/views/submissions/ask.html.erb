@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<ol>
+  <% @submissions.each do |submission| %>
+    <% if submission.url == ""%>
+      <li>
+        <strong><%= link_to submission.title, submission %> (<%= submission.url %>)</strong>
+        <p style="color: grey"> 10 Points by Jia Xiang Cheng | 
+          <% time = (Time.now() - submission.created_at) %>
+          <% if time < 3600 %>
+            <a><%= (time/60).round %> minutes ago</a> | 
+          <% end %>
+
+          <% if time >= 3600 && time < 3600*24 %>
+              <a><%= (time/3600).round %> hours ago</a> | 
+          <% end %>
+    
+          <% if time >= 3600*24 %>
+              <a><%= (time/(3600*24)).round %> days ago</a> | 
+          <% end %>
+          32 Comments</p>
+        </p>
+      </li>
+    <% end %>
+  <% end %>
+</ol>
+
+<br>
