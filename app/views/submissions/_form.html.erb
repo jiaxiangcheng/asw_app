@@ -1,0 +1,46 @@
+<%= form_with(model: submission, local: true) do |form| %>
+  <% if submission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+      <% submission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :submission_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :url %>
+    <%= form.text_field :url, id: :submission_url %>
+  </div>
+
+  <div class="message">
+    <strong><%= form.label " or" %></strong>
+  </div>
+  <br>
+
+  <div class="field">
+    <%= form.label :text %>
+    <%= form.text_area :text, id: :submission_text %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+  <br>
+  <div class="message">
+    <%= form.label "Leave url blank to submit a question for discussion."%>
+  </div>
+  
+  <div class="message">
+    <%= form.label "If there is no url, the text (if any) will appear at the top of the thread."%>
+  </div>
+<% end %>
