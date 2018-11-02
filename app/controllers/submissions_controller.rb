@@ -1,10 +1,17 @@
 class SubmissionsController < ApplicationController
+  helper ApplicationHelper
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
   # GET /submissions
   # GET /submissions.json
+  # GET /submissions/news
+  # GET /submissions/news.json
   def index
-    @submissions = Submission.all.order("created_at DESC")
+    if params.key?(:order)
+      @submissions = Submission.all.order(params[:order].to_s + " DESC")
+    else
+      @submissions = Submission.all.order("points DESC")
+    end
   end
 
   # GET /submissions/ask
@@ -31,10 +38,13 @@ class SubmissionsController < ApplicationController
   # POST /submissions.json
   def create
     @submission = Submission.new(submission_params)
+    @submission.points = 0
+    @submission.created_at = Time.now()
+    @submission.num_comments = 0
 
     respond_to do |format|
       if @submission.save
-        format.html { redirect_to newest_path, notice: 'News was successfully created.' }
+        format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
         format.json { render :show, status: :created, location: @submission }
       else
         format.html { render :new }
@@ -75,6 +85,6 @@ class SubmissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def submission_params
-      params.require(:submission).permit(:title, :url, :text)
+      params.permit(:title, :url, :text)
     end
 end
