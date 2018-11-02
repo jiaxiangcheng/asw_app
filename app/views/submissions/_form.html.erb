@@ -1,46 +1,46 @@
-<%= form_with(model: submission, local: true) do |form| %>
+<%= form_with model: @submissions, url: submissions_path do |form| %>
   <% if submission.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
-
-      <ul>
-      <% submission.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
   <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :submission_title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url, id: :submission_url %>
-  </div>
-
-  <div class="message">
-    <strong><%= form.label " or" %></strong>
-  </div>
-  <br>
-
-  <div class="field">
-    <%= form.label :text %>
-    <%= form.text_area :text, id: :submission_text %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
-  <br>
-  <div class="message">
-    <%= form.label "Leave url blank to submit a question for discussion."%>
-  </div>
-  
-  <div class="message">
-    <%= form.label "If there is no url, the text (if any) will appear at the top of the thread."%>
-  </div>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td><%= form.label :title, "title" %></td>
+        <td>
+          <%= form.text_field :title, id: :submission_title, name: :title, size: 50 %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= form.label :url, "url" %></td>
+        <td><%= form.text_field :url, id: :submission_url, name: :url, size: 50 %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>or</b></td>
+      </tr>
+      <tr>
+        <td><%= form.label :text, "text" %></td>
+        <td><%= form.text_area :text, id: :submission_text, name: :text, rows: 4, cols: 49 %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= form.submit "submit" %></td>
+      </tr>
+      <tr style="height:20px"></tr>
+      <tr>
+        <td></td>
+        <td>Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.
+          <br><br> You can also submit via <a href="#" rel="nofollow"><u>bookmarklet</u></a>.</td>
+      </tr>
+      <% submission.errors.full_messages.each do |message| %>
+        <tr>
+          <td><%= message %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
