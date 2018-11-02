@@ -11,30 +11,42 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :submission_title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url, id: :submission_url %>
-  </div>
-
-  <div class="message">
-    <strong><%= form.label " or" %></strong>
-  </div>
-  <br>
-
-  <div class="field">
-    <%= form.label :text %>
-    <%= form.text_area :text, id: :submission_text %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
+  <table border="0">
+    <tr>
+      <td>
+        <%= form.label :title %>
+      </td>
+      <td>
+        <%= form.text_field :title, id: :contribution_title, size: 50 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.label :url %>
+      </td>
+      <td>
+        <%= form.text_field :url, id: :contribution_url, size: 50 %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><b>or</b></td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.label :text %>
+      </td>
+      <td>
+        <%= form.text_area :text, id: :contribution_text, rows: 4, cols: 49 %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= form.submit %>
+      </td>
+    </tr>
+  </table>
   <br>
   <div class="message">
     <%= form.label "Leave url blank to submit a question for discussion."%>
@@ -43,4 +55,5 @@
   <div class="message">
     <%= form.label "If there is no url, the text (if any) will appear at the top of the thread."%>
   </div>
+  
 <% end %>
