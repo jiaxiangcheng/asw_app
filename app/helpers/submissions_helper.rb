@@ -12,3 +12,4 @@ module SubmissionsHelper
       return (time/(60*60*24)).round.to_s + " days ago"
     end
   end
+end
