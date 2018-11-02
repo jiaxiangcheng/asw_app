@@ -7,48 +7,11 @@
 <% end %>
 
 <% content_for :body do %>
-  <td>
-    <!-- <%= render 'form', submission: @submission %> -->
-    <form method="post" action="/r"><input name="fnid" value="Ull0qnvcbZqVTXVfp57ZOD" type="hidden"><input name="fnop" value="submit-page" type="hidden">
-      <script type="text/javascript">
-        function tlen(el) { var n = el.value.length - 80; el.nextSibling.innerText = n > 0 ? n + ' too long' : ''; }
-      </script>
-      <table border="0">
-        <tbody>
-          <tr>
-            <td>title</td>
-            <td><input name="title" size="50" oninput="tlen(this)" onfocus="tlen(this)" type="text"><span style="margin-left:10px"></span></td>
-          </tr>
-          <tr>
-            <td>url</td>
-            <td><input name="url" size="50" type="text"></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>or</b></td>
-          </tr>
-          <tr>
-            <td>text</td>
-            <td><textarea name="text" rows="4" cols="49"></textarea></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><input value="submit" type="submit"></td>
-          </tr>
-          <tr style="height:20px"></tr>
-          <tr>
-            <td></td>
-            <td>Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.
-              <br><br> You can also submit via <a href="#" rel="nofollow"><u>bookmarklet</u></a>.</td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </td>
+  <tr>
+    <td>
+      <%= render 'form', submission: @submission %>
+    </td>
+  </tr>
 <% end %>
 
 <% content_for :footer do %>
