@@ -1,44 +1,138 @@
-<p id="notice"><%= notice %></p>
-<% @submissions.each_with_index do |submissions, index| %>
-  <!-- <% unless submissions.site == "" %> -->
-    <tr class="athing" id="18336202">
-      <td class="title" valign="top" align="right" width="23px">
-        <span class="rank"><%= index + 1 %>.</span>
-      </td>
-      <td class="votelinks" valign="top">
-        <center>
-          <a id="up_18336202" onclick='return vote(event, this, "up")' href="?id=18336202&amp;how=up&amp;auth=82ffa3bbc57e8f84bcfc87c0d5127d61661b2131&amp;goto=news">
-            <div class="votearrow" title="upvote"></div>
-          </a>
-        </center>
-      </td>
-      <td class="title">
-        <a href="#<%= submissions.site %>" class="storylink"><%= submissions.title %></a>
-        <span class="sitebit comhead">
-          (
-          <a href="?site=<%= submissions.site %>">
-            <span class="sitestr"><%= submissions.site %></span>
-          </a>
-          )
+<% content_for :head do %>
+  <title>Hacker News</title>
+<% end %>
+
+<% content_for :menu_bar do %>
+  <td style="line-height:12pt; height:10px;">
+    <span class="pagetop">
+      <b class="hnname">
+        <%= link_to 'Hacker News', news_menu_path %>
+      </b>
+      <a href="#">welcome</a>
+      |
+      <%= link_to 'new',  newest_path %>
+      |
+      <a href="#">threads</a>
+      |
+      <a href="#">comments</a>
+      |
+      <a href="#">show</a>
+      |
+      <a href="#">ask</a>
+      |
+      <a href="#">jobs</a>
+      |
+      <%= link_to 'submit', new_submission_path %>
+    </span>
+  </td>
+  <td style="text-align:right;padding-right:4px;">
+    <span class="pagetop">
+      <a id="me" href="#">aswlabs</a>
+      (1) |
+      <a id="logout" href="#">logout</a>
+    </span>
+  </td>
+<% end %>
+
+<% content_for :body do %>
+  <tr>
+    <td>
+      <table class="itemlist" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <% @submissions.each_with_index do |submissions, index| %>
+            <tr class="athing" id="18336202">
+              <td class="title" valign="top" align="right" width="23px">
+                <span class="rank"><%= index + 1 %>.</span>
+              </td>
+              <td class="votelinks" valign="top">
+                <center>
+                  <a id="up_18336202" onclick='return vote(event, this, "up")' href="?id=18336202&amp;how=up&amp;auth=82ffa3bbc57e8f84bcfc87c0d5127d61661b2131&amp;goto=news">
+                    <div class="votearrow" title="upvote"></div>
+                  </a>
+                </center>
+              </td>
+              <td class="title">
+                <a href="#<%= submissions.site %>" class="storylink"><%= submissions.title %></a>
+                <span class="sitebit comhead">
+                  (
+                  <a href="?site=<%= submissions.site %>">
+                    <span class="sitestr"><%= submissions.site %></span>
+                  </a>
+                  )
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td class="subtext">
+                <span class="score" id="score_18336202"><%= submissions.points %> points</span>
+                by
+                <a href="?id=<%= submissions.author %>" class="hnuser"><%= submissions.author %></a>
+                <span class="age">
+                  <a href="?id=18336202"><%= humanize_time(Time.now() - submissions.created_at) %></a>
+                </span>
+                <span id="unv_18336202"></span>
+                |
+                <a href="#" onclick="return hidestory(event, this, 18336202)">hide</a>
+                |
+                <a href="?id=18336202"><%= submissions.num_comments %>&nbsp;comments</a>
+              </td>
+            </tr>
+            <tr class="spacer" style="height:5px"></tr>
+          <% end %>
+          <tr class="morespace" style="height:10px"></tr>
+          <tr>
+            <td colspan="2"></td>
+            <td class="title">
+              <a href="#" class="morelink" rel="nofollow">More</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+<% end %>
+
+<% content_for :footer do %>
+  <tr>
+    <td>
+      <img src="#" width="0" height="10">
+      <table width="100%" cellspacing="0" cellpadding="1">
+        <tbody>
+          <tr>
+            <td bgcolor="#ff6600"></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <center>
+        <span class="yclinks">
+          <a href="#">Guidelines</a>
+          |
+          <a href="#">FAQ</a>
+          |
+          <a href="#">Support</a>
+          |
+          <a href="#">API</a>
+          |
+          <a href="#">Security</a>
+          |
+          <a href="#">Lists</a>
+          |
+          <a href="#" rel="nofollow">Bookmarklet</a>
+          |
+          <a href="#">Legal</a>
+          |
+          <a href="#">Apply to YC</a>
+          |
+          <a href="#">Contact</a>
         </span>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"></td>
-      <td class="subtext">
-        <span class="score" id="score_18336202"><%= submissions.points %> points</span>
-        by
-        <a href="?id=<%= submissions.author %>" class="hnuser"><%= submissions.author %></a>
-        <span class="age">
-          <a href="?id=18336202"><%= humanize_time(Time.now() - submissions.created_at) %></a>
-        </span>
-        <span id="unv_18336202"></span>
-        |
-        <a href="#" onclick="return hidestory(event, this, 18336202)">hide</a>
-        |
-        <a href="?id=18336202"><%= submissions.num_comments %>&nbsp;comments</a>
-      </td>
-    </tr>
-    <tr class="spacer" style="height:5px"></tr>
-  <!-- <% end %> -->
+        <br>
+        <br>
+        <form method="get" action="#">Search:
+          <input name="q" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false" type="text">
+        </form>
+      </center>
+    </td>
+  </tr>
 <% end %>
