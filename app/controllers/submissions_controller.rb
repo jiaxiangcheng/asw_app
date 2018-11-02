@@ -4,8 +4,14 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions
   # GET /submissions.json
+  # GET /submissions/news
+  # GET /submissions/news.json
   def index
-    @submissions = Submission.all.order("created_at DESC")
+    if params.key?(:order)
+      @submissions = Submission.all.order(params[:order].to_s + " DESC")
+    else
+      @submissions = Submission.all.order("points DESC")
+    end
   end
 
   # GET /submissions/ask
@@ -38,7 +44,7 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.save
-        format.html { redirect_to newest_path, notice: 'News was successfully created.' }
+        format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
         format.json { render :show, status: :created, location: @submission }
       else
         format.html { render :new }
