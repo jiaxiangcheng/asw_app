@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  helper ApplicationHelper
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
   # GET /submissions
@@ -31,6 +32,9 @@ class SubmissionsController < ApplicationController
   # POST /submissions.json
   def create
     @submission = Submission.new(submission_params)
+    @submission.points = 0
+    @submission.created_at = Time.now()
+    @submission.num_comments = 0
 
     respond_to do |format|
       if @submission.save
@@ -75,6 +79,6 @@ class SubmissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def submission_params
-      params.require(:submission).permit(:title, :url, :text)
+      params.permit(:title, :url, :text)
     end
 end
