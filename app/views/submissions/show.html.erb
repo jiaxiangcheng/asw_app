@@ -1,19 +1,79 @@
-<p id="notice"><%= notice %></p>
+<% render 'header'%>
+<% render 'footer' %>
 
-<p>
-  <strong>Title:</strong>
-  <%= @submission.title %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @submission.url %>
-</p>
-
-<p>
-  <strong>Text:</strong>
-  <%= @submission.text %>
-</p>
-
-<%= link_to 'Edit', edit_submission_path(@submission) %> |
-<%= link_to 'Back', submissions_path %>
+<% content_for :body do %>
+  <tr>
+      <td>
+          <table class="fatitem" border="0">
+              <tbody>
+                  <tr class="athing" id="<%= @submission.id %>">
+                    <td class="title" valign="top" align="right"><span class="rank"></span></td>
+                    <td class="votelinks" valign="top">
+                        <center>
+                            <a id="up_<%= @submission.id %>" onclick="return vote(event, this, &quot;up&quot;)" href="vote?id=<%= @submission.id %>&amp;how=up&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472&amp;goto=item%3Fid%3D<%= @submission.id %>">
+                                <div class="votearrow" title="upvote"></div>
+                            </a>
+                        </center>
+                    </td>
+                    <td class="title">
+                      <a href="" class="storylink"><%= @submission.title %></a>
+                      <% if is_url?(@submission) %>
+                        <span class="sitebit comhead">
+                          (
+                          <a href="#from?site=<%= @submission.url %>">
+                            <span class="sitestr"><%= @submission.url %></span>
+                          </a>
+                          )
+                        </span>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <tr>
+                      <td colspan="2"></td>
+                      <td class="subtext">
+                          <span class="score" id="score_<%= @submission.id %>">1 point</span>
+                          by
+                          <a href="#user?id=mustafab" class="hnuser">mustafab</a>
+                          <span class="age"><a href="">3 minutes ago</a></span>
+                          <span id="unv_<%= @submission.id %>"></span>
+                          |
+                          <a href="#hide?id=<%= @submission.id %>&amp;goto=item%3Fid%3D<%= @submission.id %>&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472">hide</a>
+                          |
+                          <a href="" class="hnpast">past</a>
+                          |
+                          <%= link_to 'web', "https://www.google.com/search?q=#{CGI.escape @submission.title}" %>
+                          |
+                          <a href="#fav?id=<%= @submission.id %>&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472">favorite</a>
+                          |
+                          <% comment_or_discuss = @submission.num_comments == 0 ? "discuss" : "#{@submission.num_comments} comments" %>
+                          <%= link_to(comment_or_discuss, item_path(id: @submission.id)) %>
+                  </tr>
+                  <tr style="height:2px"></tr>
+                  <tr>
+                      <td colspan="2"></td>
+                      <td><%= @submission.text %></td>
+                  </tr>
+                  <tr style="height:10px"></tr>
+                  <tr>
+                      <td colspan="2"></td>
+                      <td>
+                        <form method="post" action="comment">
+                          <input name="parent" value="<%= @submission.id %>" type="hidden">
+                          <input name="goto" value="item?id=<%= @submission.id %>" type="hidden">
+                          <input name="hmac" value="08e1895c9c4e9af72e60903700a0e52714224531" type="hidden">
+                          <textarea name="text" rows="6" cols="60"></textarea>
+                          <br><br>
+                          <span class="subtext">If you haven't already, would you mind reading
+                            about HN's <a href=""><u>approach to comments</u></a>
+                            and <a href=""><u>site guidelines</u></a>?
+                          </span>
+                          <br><br>
+                          <input value="add comment" type="submit">
+                        </form>
+                      </td>
+                  </tr>
+              </tbody>
+          </table><br><br>
+      </td>
+  </tr>
+<% end %>

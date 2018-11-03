@@ -12,4 +12,14 @@ module SubmissionsHelper
       return (time/(60*60*24)).round.to_s + " days ago"
     end
   end
+
+  # return true if is ask
+  def is_ask?(submission)
+    return submission.url == ''
+  end
+
+  # return true if is url
+  def is_url?(submission)
+    return submission.text == ''
+  end
 end
