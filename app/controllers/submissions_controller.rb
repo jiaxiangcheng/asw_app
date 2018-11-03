@@ -11,7 +11,7 @@ class SubmissionsController < ApplicationController
       @submissions = Submission.all.order("created_at DESC")
     elsif params.key?(:type) && params[:type] == :points
       @submissions = Submission.all.order("points DESC")
-    else 
+    else
       @submissions = Submission.all.order("points DESC").select { |s| s.url == ""}
     end
   end
@@ -40,19 +40,25 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
-    @submission = Submission.new(submission_params)
-    @submission.points = 0
-    @submission.created_at = Time.now()
-    @submission.num_comments = 0
-    @submission.author = "Donald Duck"
+    new_url = submission_params[:url]
+    if Submission.exists?(url: new_url) # sub. with this url exists
+      existing_submission = Submission.find_by(url: new_url)
+      redirect_to item_path(id: existing_submission.id)
+    else # create new submission
+      @submission = Submission.new(submission_params)
+      @submission.points = 0
+      @submission.created_at = Time.now()
+      @submission.num_comments = 0
+      @submission.author = "Donald Duck"
 
-    respond_to do |format|
-      if @submission.save
-        format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
-        format.json { render :show, status: :created, location: @submission }
-      else
-        format.html { render :new }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @submission.save
+          format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
+          format.json { render :show, status: :created, location: @submission }
+        else
+          format.html { render :new }
+          format.json { render json: @submission.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
