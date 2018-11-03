@@ -7,10 +7,12 @@ class SubmissionsController < ApplicationController
   # GET /submissions/news
   # GET /submissions/news.json
   def index
-    if params.key?(:order)
-      @submissions = Submission.all.order(params[:order].to_s + " DESC")
-    else
+    if params.key?(:type) && params[:type] == :created_at
+      @submissions = Submission.all.order("created_at DESC")
+    elsif params.key?(:type) && params[:type] == :points
       @submissions = Submission.all.order("points DESC")
+    else 
+      @submissions = Submission.all.order("points DESC").select { |s| s.url == ""}
     end
   end
 
