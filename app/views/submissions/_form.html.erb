@@ -1,7 +1,16 @@
-<%= form_with model: @submissions, url: submissions_path do |form| %>
+<%= form_with model: @submissions, url: submissions_path, local: true do |form| %>
   <% if submission.errors.any? %>
-    <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+    <div id="error_explanation">
+      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+      <% submission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
   <% end %>
+
   <table border="0">
     <tbody>
       <tr>
@@ -36,11 +45,6 @@
         <td>Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.
           <br><br> You can also submit via <a href="#" rel="nofollow"><u>bookmarklet</u></a>.</td>
       </tr>
-      <% submission.errors.full_messages.each do |message| %>
-        <tr>
-          <td><%= message %></td>
-        </tr>
-      <% end %>
     </tbody>
   </table>
 <% end %>
