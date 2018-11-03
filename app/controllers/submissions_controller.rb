@@ -25,6 +25,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.json
   def show
+    @submission = Submission.find(params[:id])
   end
 
   # GET /submissions/new
@@ -43,6 +44,7 @@ class SubmissionsController < ApplicationController
     @submission.points = 0
     @submission.created_at = Time.now()
     @submission.num_comments = 0
+    @submission.author = "Donald Duck"
 
     respond_to do |format|
       if @submission.save
