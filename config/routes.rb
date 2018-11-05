@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
   get 'item' => 'submissions#show', as: :item
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'logout', to: 'sessions#destroy'
 end
