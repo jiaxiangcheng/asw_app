@@ -25,7 +25,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.json
   def show
-    @submission = Submission.find(params[:id])
+    @submission = Submission.find(params[:id])  
   end
 
   # GET /submissions/new
@@ -42,19 +42,16 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
-    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
-    
     new_url = submission_params[:url]
     # sub. with this url exists (and is not ask)
     if new_url != "" && Submission.exists?(url: new_url)
       existing_submission = Submission.find_by(url: new_url)
       redirect_to item_path(id: existing_submission.id)
     else # create new submission
-      @submission = Submission.new(submission_params)
+      @submission = User.find(session[:user_id]).submissions.create(submission_params)
       @submission.points = 0
       @submission.created_at = Time.now()
       @submission.num_comments = 0
-      @submission.author = "Donald Duck"
 
       respond_to do |format|
         if @submission.save

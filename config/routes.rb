@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :submissions
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'submissions#index'
+  root 'submissions#index', type: :points
 
   get 'news' => 'submissions#index', as: :news_menu, type: :points
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
