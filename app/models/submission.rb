@@ -2,6 +2,7 @@ class Submission < ApplicationRecord
     validates :title, presence: true
     validate :check_not_both
     validate :correct_url_format
+    belongs_to :user
 
     private
     def correct_url_format
@@ -17,5 +18,5 @@ class Submission < ApplicationRecord
         end
     end
 
-    
+
 end
