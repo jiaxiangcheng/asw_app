@@ -2,12 +2,6 @@ class SubmissionsController < ApplicationController
   helper ApplicationHelper
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-
-  helper_method :current_user
-
   # GET /submissions
   # GET /submissions.json
   # GET /submissions/news
@@ -36,7 +30,9 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
+    redirect_to '/auth/google_oauth2' unless user_is_logged?
     @submission = Submission.new
+
   end
 
   # GET /submissions/1/edit
@@ -46,6 +42,8 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
+    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+    
     new_url = submission_params[:url]
     # sub. with this url exists (and is not ask)
     if new_url != "" && Submission.exists?(url: new_url)
