@@ -1,4 +1,4 @@
-class RealTest < ActiveRecord::Migration[5.1]
+class AddForeignkey < ActiveRecord::Migration[5.1]
   def change
     change_table :submissions do |t|
       t.remove :author
