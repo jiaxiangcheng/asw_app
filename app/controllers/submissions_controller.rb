@@ -7,6 +7,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/news
   # GET /submissions/news.json
   def index
+    @users = User.all
     if params.key?(:type) && params[:type] == :created_at
       @submissions = Submission.all.order("created_at DESC")
     elsif params.key?(:type) && params[:type] == :points
@@ -31,7 +32,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new
   def new
     redirect_to '/auth/google_oauth2' unless user_is_logged?
-    @submission = Submission.new
+    @submission = current_user.submissions.build
 
   end
 
@@ -40,7 +41,7 @@ class SubmissionsController < ApplicationController
   end
 
   # POST /submissions
-  # POST /submissions.json
+  # POST /submissions.json@
   def create
     new_url = submission_params[:url]
     # sub. with this url exists (and is not ask)

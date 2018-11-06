@@ -36,7 +36,7 @@
                 <td class="subtext">
                   <span class="score" id="score_<%= submission.id %>"><%= submission.points %> points</span>
                   by
-                  <a href="?id=<%= submission.user_id %>" class="hnuser"><%= submission.user_id %></a>
+                  <%= @users.find(submission.user_id).name %>
                   <span class="age">
                     <%= link_to humanize_time(Time.now() - submission.created_at), item_path(id: submission.id) %>
                   </span>
