@@ -47,7 +47,8 @@ class SubmissionsController < ApplicationController
   # POST /submissions.json
   def create
     new_url = submission_params[:url]
-    if Submission.exists?(url: new_url) # sub. with this url exists
+    # sub. with this url exists (and is not ask)
+    if new_url != "" && Submission.exists?(url: new_url)
       existing_submission = Submission.find_by(url: new_url)
       redirect_to item_path(id: existing_submission.id)
     else # create new submission
