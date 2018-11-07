@@ -62,21 +62,21 @@
                   </tr>
                   <tr style="height:10px"></tr>
                   <tr>
-                      <td colspan="2"></td>
-                      <td>
-                        <form method="post" action="comment">
-                          <input name="parent" value="<%= @submission.id %>" type="hidden">
-                          <input name="goto" value="item?id=<%= @submission.id %>" type="hidden">
-                          <input name="hmac" value="08e1895c9c4e9af72e60903700a0e52714224531" type="hidden">
-                          <textarea name="text" rows="6" cols="60"></textarea>
-                          <br><br>
-                          <span class="subtext">If you haven't already, would you mind reading
-                            about HN's <a href=""><u>approach to comments</u></a>
-                            and <a href=""><u>site guidelines</u></a>?
-                          </span>
-                          <br><br>
-                          <input value="add comment" type="submit">
-                        </form>
+                    <td colspan="2"></td>
+                        <td>
+                            <h3 class="comments_title">
+                                <%= @submission.comments.count %> Comments
+                            </h3>
+                            <div id="comments">
+                                <%= render :partial => @submission.comments %>
+                            </div>
+                            <%= simple_form_for [@submission, Comment.new] do |f| %>
+                                <div class="field">
+                                    <%= f.text_area :body %>
+                                </div>
+                                <br>
+                                <%= f.submit "Add Comment" %>
+                            <% end %>
                       </td>
                   </tr>
               </tbody>

@@ -32,8 +32,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new
   def new
     redirect_to '/auth/google_oauth2' unless user_is_logged?
-    @submission = current_user.submissions.build
-
+    @submission = User.find(session[:user_id]).submissions.build if session[:user_id]
   end
 
   # GET /submissions/1/edit
