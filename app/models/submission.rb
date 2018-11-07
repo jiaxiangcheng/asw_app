@@ -3,6 +3,7 @@ class Submission < ApplicationRecord
     validate :check_not_both
     validate :correct_url_format
     belongs_to :user
+    acts_as_votable
 
     private
     def correct_url_format

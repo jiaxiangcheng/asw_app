@@ -22,7 +22,7 @@ class SubmissionsController < ApplicationController
   def ask
     @submissions = Submission.all.order("created_at DESC")
   end
-
+  
   # GET /submissions/1
   # GET /submissions/1.json
   def show
@@ -87,6 +87,24 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def upvote
+    redirect_to '/auth/google_oauth2' unless user_is_logged?
+    if user_is_logged? 
+      @submission = Submission.find(params[:id])
+      @submission.upvote_by current_user
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def downvote
+    redirect_to '/auth/google_oauth2' unless user_is_logged?
+    if user_is_logged?
+      @submission = Submission.find(params[:id])
+      @submission.downvote_by current_user
+      redirect_back(fallback_location: root_path)
     end
   end
 
