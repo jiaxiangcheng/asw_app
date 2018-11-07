@@ -4,7 +4,7 @@ class Submission < ApplicationRecord
     validate :correct_url_format
     belongs_to :user
     acts_as_votable
-
+    has_many :comments
     private
     def correct_url_format
         unless url.blank?
