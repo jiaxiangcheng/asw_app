@@ -11,7 +11,8 @@
                 <th>Submission title</th>
                 <th>Username</th>
                 <th>Content</th>
-                <th colspan="3"></th>
+                <th>Created at</th>
+                <th colspan="4"></th>
               </tr>
             </thead>
 
@@ -22,6 +23,7 @@
                     <td><a href= "/submissions/<%= comment.submission.id %>"><%= comment.submission.title %></a></td>
                     <td><a href= "/users/<%= comment.user.id %>"> <%= comment.user.name %></a></td>
                     <td><%= comment.body %></td>
+                    <td><%= humanize_time(Time.now() - comment.created_at) %></td>
                     <!--td><%= link_to 'Show', comment %></td>
                     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
                     <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td -->
