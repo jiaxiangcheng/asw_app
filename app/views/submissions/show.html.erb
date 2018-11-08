@@ -43,10 +43,8 @@
                         |
                         <%= link_to 'web', "https://www.google.com/search?q=#{CGI.escape @submission.title}" %>
                         |
-                        <a href="#fav?id=<%= @submission.id %>&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472">favorite</a>
-                        |
-                        <% comment_or_discuss = @submission.num_comments == 0 ? "discuss" : "#{@submission.num_comments} comments" %>
-                        <%= link_to(comment_or_discuss, item_path(id: @submission.id)) %>
+                        
+                        <%= link_to 'discuss', submission_path %>
                         |
                         <%= link_to 'Upvote',  like_submission_path(@submission), method: :put %>
                             <span>=></span> <%= @submission.get_upvotes.size %>
@@ -72,7 +70,7 @@
                             </div>
                             <%= simple_form_for [@submission, Comment.new] do |f| %>
                                 <div class="field">
-                                    <%= f.text_area :body %>
+                                    <%= f.text_area :body, rows: 7, cols: 50 %>
                                 </div>
                                 <br>
                                 <%= f.submit "Add Comment" %>
