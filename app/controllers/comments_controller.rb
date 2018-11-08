@@ -1,22 +1,31 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
 
+
+  def index
+    @comments = Comment.all
+  end
+
   # POST /comments
   # POST /comments.json
   def create
-    @submission = Submission.find(params[:submission_id])
-    @comment = @submission.comments.new(comment_params)
-    @comment.user = User.find(session[:user_id]) if session[:user_id]
+    if current_user 
+      @submission = Submission.find(params[:submission_id])
+      @comment = @submission.comments.new(comment_params)
+      @comment.user = current_user
 
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @submission, notice: 'Comment was successfully created.' }
-        format.json { render json: @comment, status: :created, location: @comment }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @comment.save
+          format.html { redirect_to @submission, notice: 'Comment was successfully created.' }
+          format.json { render json: @comment, status: :created, location: @comment }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       end
-    end
+    else 
+      redirect_to '/auth/google_oauth2'
+    end 
   end
 
 
@@ -37,10 +46,14 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user
+      @comment.destroy
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: 'Comment was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else 
+      redirect_to '/auth/google_oauth2'
     end
   end
 

@@ -31,8 +31,11 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    redirect_to '/auth/google_oauth2' unless user_is_logged?
-    @submission = User.find(session[:user_id]).submissions.build if session[:user_id]
+    if current_user
+      @submission = current_user.submissions.build
+    else 
+      redirect_to '/auth/google_oauth2'
+    end
   end
 
   # GET /submissions/1/edit
@@ -42,26 +45,30 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json@
   def create
-    new_url = submission_params[:url]
-    # sub. with this url exists (and is not ask)
-    if new_url != "" && Submission.exists?(url: new_url)
-      existing_submission = Submission.find_by(url: new_url)
-      redirect_to item_path(id: existing_submission.id)
-    else # create new submission
-      @submission = User.find(session[:user_id]).submissions.create(submission_params)
-      @submission.points = 0
-      @submission.created_at = Time.now()
-      @submission.num_comments = 0
+    if current_user
+      new_url = submission_params[:url]
+      # sub. with this url exists (and is not ask)
+      if new_url != "" && Submission.exists?(url: new_url)
+        existing_submission = Submission.find_by(url: new_url)
+        redirect_to item_path(id: existing_submission.id)
+      else # create new submission
+        @submission = current_user.submissions.create(submission_params)
+        @submission.points = 0
+        @submission.created_at = Time.now()
+        @submission.num_comments = 0
 
-      respond_to do |format|
-        if @submission.save
-          format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
-          format.json { render :show, status: :created, location: @submission }
-        else
-          format.html { render :new }
-          format.json { render json: @submission.errors, status: :unprocessable_entity }
+        respond_to do |format|
+          if @submission.save
+            format.html { redirect_to newest_menu_path, notice: 'News was successfully created.' }
+            format.json { render :show, status: :created, location: @submission }
+          else
+            format.html { render :new }
+            format.json { render json: @submission.errors, status: :unprocessable_entity }
+          end
         end
       end
+    else 
+      redirect_to '/auth/google_oauth2'
     end
   end
 
@@ -90,20 +97,22 @@ class SubmissionsController < ApplicationController
   end
 
   def upvote
-    redirect_to '/auth/google_oauth2' unless user_is_logged?
-    if user_is_logged? 
+    if current_user
       @submission = Submission.find(params[:id])
       @submission.upvote_by current_user
       redirect_back(fallback_location: root_path)
+    else 
+      redirect_to '/auth/google_oauth2'
     end
   end
 
   def downvote
-    redirect_to '/auth/google_oauth2' unless user_is_logged?
-    if user_is_logged?
+    if current_user
       @submission = Submission.find(params[:id])
       @submission.downvote_by current_user
       redirect_back(fallback_location: root_path)
+    else 
+      redirect_to '/auth/google_oauth2'
     end
   end
 

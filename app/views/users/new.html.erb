@@ -1,0 +1,19 @@
+<% content_for :head do %>
+    <title>Submit | Hacker News</title>
+  <% end %>
+  
+  <% content_for :menu_bar do %>
+    <td style="line-height:12pt; height:10px;"><span class="pagetop"><b>Submit</b></span></td>
+  <% end %>
+  
+  <% content_for :body do %>
+    <tr>
+      <td>
+        <%= render 'form', submission: @user %>
+      </td>
+    </tr>
+  <% end %>
+  
+  <% content_for :footer do %>
+  <% end %>
+  
