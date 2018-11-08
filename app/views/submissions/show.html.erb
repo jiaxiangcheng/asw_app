@@ -31,10 +31,12 @@
                   <tr>
                       <td colspan="2"></td>
                       <td class="subtext">
-                        <span class="score" id="score_<%= @submission.id %>">1 point</span>
+                        <span class="score" id="score_<%= @submission.id %>"><%= pluralize(@submission.cached_votes_score, 'point') %></span>
                         by
-                        <a href="#user?id=mustafab" class="hnuser">mustafab</a>
-                        <span class="age"><a href="">3 minutes ago</a></span>
+                        <%= link_to @submission.user.name, @submission.user, class: :hnuser %> </a>
+                        <span class="age">
+                          <%= link_to humanize_time(Time.now() - @submission.created_at), @submission %>
+                        </span>
                         <span id="unv_<%= @submission.id %>"></span>
                         |
                         <a href="#hide?id=<%= @submission.id %>&amp;goto=item%3Fid%3D<%= @submission.id %>&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472">hide</a>
@@ -43,15 +45,15 @@
                         |
                         <%= link_to 'web', "https://www.google.com/search?q=#{CGI.escape @submission.title}" %>
                         |
-                        
+
                         <%= link_to 'discuss', submission_path %>
                         |
                         <%= link_to 'Upvote',  like_submission_path(@submission), method: :put %>
-                            <span>=></span> <%= @submission.get_upvotes.size %>
+                            <span>=></span> <%= @submission.cached_votes_up %>
                         |
                         <%= link_to 'Downvote', dislike_submission_path(@submission), method: :put %>
-                            <span>=></span> <%= @submission.get_downvotes.size %> 
-                          
+                            <span>=></span> <%= @submission.cached_votes_down %>
+
                   </tr>
                   <tr style="height:2px"></tr>
                   <tr>

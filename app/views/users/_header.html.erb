@@ -28,7 +28,7 @@
   <td style="text-align:right;padding-right:4px;">
     <span class="pagetop">
       <% if current_user %>
-      <a href="/users/<%= current_user.id %>"> <%= current_user.name %> </a>
+      <%= link_to current_user.name, current_user %> </a>
       | <a href="/logout">logout</a>
       <% else %>
         <a href="/auth/google_oauth2">login</a>
