@@ -17,14 +17,16 @@
 
             <tbody>
               <% @comments.each do |comment| %>
-                <tr>
-                  <td><a href= "/submissions/<%= comment.submission.id %>"><%= comment.submission.title %></a></td>
-                  <td><a href= "/users/<%= comment.user.id %>"> <%= comment.user.name %></a></td>
-                  <td><%= comment.body %></td>
-                  <!--td><%= link_to 'Show', comment %></td>
-                  <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-                  <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td -->
-                </tr>
+                <% if comment.user == current_user %>
+                  <tr>
+                    <td><a href= "/submissions/<%= comment.submission.id %>"><%= comment.submission.title %></a></td>
+                    <td><a href= "/users/<%= comment.user.id %>"> <%= comment.user.name %></a></td>
+                    <td><%= comment.body %></td>
+                    <!--td><%= link_to 'Show', comment %></td>
+                    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+                    <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td -->
+                  </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>
