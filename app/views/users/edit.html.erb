@@ -1,0 +1,42 @@
+<% render 'header'%>
+<% render 'footer' %>
+
+<% content_for :body do %>
+  <tr>
+    <td>
+      <table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+        <tr style="height:10px"></tr>
+        <tr>
+          <td>
+            <table>
+              <tbody>
+                <div style="margin-left:20px">
+                  <p>
+                    <strong>Name:</strong>
+                    <%= @user.name %>
+                  </p>
+
+                  <p>
+                    <strong>Created:</strong>
+                    <%= time_ago_in_words(@user.created_at) %> ago
+                  </p>
+
+                  <% if current_user && current_user.id == @user.id %>
+
+                    <p>
+                      <strong>Email:</strong>
+                      <%= @user.email %>
+                    </p>
+                    <%= render 'form' %>
+                  <% end %>
+
+                </div>
+                </tbody>
+              </table>
+            <tr class="spacer" style="height:20px"></tr>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+<% end %>
