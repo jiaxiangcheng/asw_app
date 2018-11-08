@@ -17,6 +17,11 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def submissionsofuser
+    @users = User.all
+    @submissions = Submission.all.order("points DESC")
+  end
+
   # GET /submissions/ask
   # GET /submissions/ask.json
   def ask

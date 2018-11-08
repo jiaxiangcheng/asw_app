@@ -37,11 +37,11 @@
                     <%= link_to 'Comments', comments_path %>
                   </p>
                   <p>
-                    <%= link_to 'Submissions', submissions_path %>
+                    <%= link_to 'Submissions', submission_user_path %>
                   </p>
 
                   <% if current_user && current_user.id == @user.id %>
-                    <%= link_to 'Edit', edit_user_path(@user) %>
+                    <%= link_to '<button type="button">Edit User</button>'.html_safe, edit_user_path(@user) %>
                   <% end %>
 
                 </div>
