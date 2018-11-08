@@ -8,13 +8,15 @@
       <b class="hnname">
         <%= link_to 'Hacker News', news_menu_path %>
       </b>
-      <a href="#">welcome</a>
-      |
+      <% if ! current_user %>
+        <a href="#">welcome</a>
+        |
+      <% end %>
       <%= link_to 'new',  newest_menu_path %>
       |
       <a href="#">threads</a>
       |
-      <a href="#">comments</a>
+      <%= link_to 'comments', comments_path %>
       |
       <a href="#">show</a>
       |
@@ -28,10 +30,10 @@
   <td style="text-align:right;padding-right:4px;">
     <span class="pagetop">
       <% if current_user %>
-      <%= link_to current_user.name, current_user %> </a>
-      | <a href="/logout">logout</a>
+        <%= link_to current_user.name, current_user %>
+        | <a href="logout">logout</a>
       <% else %>
-        <a href="/auth/google_oauth2">login</a>
+        <a href="auth/google_oauth2">login</a>
       <% end %>
     </span>
   </td>
