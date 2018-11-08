@@ -11,9 +11,9 @@ class SubmissionsController < ApplicationController
     if params.key?(:type) && params[:type] == :created_at
       @submissions = Submission.all.order("created_at DESC")
     elsif params.key?(:type) && params[:type] == :points
-      @submissions = Submission.all.order("points DESC")
+      @submissions = Submission.all.order(cached_votes_total: :desc)
     else
-      @submissions = Submission.all.order("points DESC").select { |s| s.url == ""}
+      @submissions = Submission.all.order(cached_votes_total: :desc).select { |s| s.url == ""}
     end
   end
 
@@ -27,18 +27,18 @@ class SubmissionsController < ApplicationController
   def ask
     @submissions = Submission.all.order("created_at DESC")
   end
-  
+
   # GET /submissions/1
   # GET /submissions/1.json
   def show
-    @submission = Submission.find(params[:id])  
+    @submission = Submission.find(params[:id])
   end
 
   # GET /submissions/new
   def new
     if current_user
       @submission = current_user.submissions.build
-    else 
+    else
       redirect_to '/auth/google_oauth2'
     end
   end
@@ -58,7 +58,6 @@ class SubmissionsController < ApplicationController
         redirect_to item_path(id: existing_submission.id)
       else # create new submission
         @submission = current_user.submissions.create(submission_params)
-        @submission.points = 0
         @submission.created_at = Time.now()
         @submission.num_comments = 0
 
@@ -72,7 +71,7 @@ class SubmissionsController < ApplicationController
           end
         end
       end
-    else 
+    else
       redirect_to '/auth/google_oauth2'
     end
   end
@@ -105,10 +104,8 @@ class SubmissionsController < ApplicationController
     if current_user
       @submission = Submission.find(params[:id])
       @submission.upvote_by current_user
-      @submission.points = @submission.points + 10
-      @submission.save
       redirect_back(fallback_location: root_path)
-    else 
+    else
       redirect_to '/auth/google_oauth2'
     end
   end
@@ -117,10 +114,8 @@ class SubmissionsController < ApplicationController
     if current_user
       @submission = Submission.find(params[:id])
       @submission.downvote_by current_user
-      @submission.points = @submission.points - 10
-      @submission.save
       redirect_back(fallback_location: root_path)
-    else 
+    else
       redirect_to '/auth/google_oauth2'
     end
   end
