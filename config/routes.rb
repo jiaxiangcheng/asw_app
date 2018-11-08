@@ -15,10 +15,10 @@ Rails.application.routes.draw do
   get 'news' => 'submissions#index', as: :news_menu, type: :points
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
-  get 'item' => 'submissions#show', as: :item
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
   get 'users/:uid' => 'users#index'
   get 'logout', to: 'sessions#destroy'
+
 end

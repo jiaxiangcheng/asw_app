@@ -1,31 +1,33 @@
-<p id="notice"><%= notice %></p>
+<% render 'header'%>
+<% render 'footer' %>
 
-<h1>Comments</h1>
-
-<table>
-  <thead>
+<% content_for :body do %>
     <tr>
-      <th>Submission</th>
-      <th>Body</th>
-      <th>User</th>
-      <th colspan="3"></th>
+        <td>
+          <h1>Comments</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>Submission title</th>
+                <th>Username</th>
+                <th>Content</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @comments.each do |comment| %>
+                <tr>
+                  <td><a href= "/submissions/<%= comment.submission.id %>"><%= comment.submission.title %></a></td>
+                  <td><a href= "/users/<%= comment.user.id %>"> <%= comment.user.name %></a></td>
+                  <td><%= comment.body %></td>
+                  <!--td><%= link_to 'Show', comment %></td>
+                  <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+                  <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td -->
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @comments.each do |comment| %>
-      <tr>
-        <td><%= comment.submission_id %></td>
-        <td><%= comment.body %></td>
-        <td><%= comment.user %></td>
-        <td><%= link_to 'Show', comment %></td>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Comment', new_comment_path %>
+<% end %>
