@@ -5,31 +5,7 @@
         <tr style="height:10px"></tr>
         <tr>
           <td>
-            <table>
-              <tbody>
-                <div style="margin-left:20px">
-                  <p>
-                    <strong>Name:</strong>
-                    <%= @user.name %>
-                  </p>
-
-                  <p>
-                    <strong>Created:</strong>
-                    <%= time_ago_in_words(@user.created_at) %> ago
-                  </p>
-
-                  <% if current_user && current_user.id == @user.id %>
-
-                    <p>
-                      <strong>Email:</strong>
-                      <%= @user.email %>
-                    </p>
-                    <%= render 'form' %>
-                  <% end %>
-
-                </div>
-                </tbody>
-              </table>
+            <%= render 'form' %>
             <tr class="spacer" style="height:20px"></tr>
           </td>
         </tr>
