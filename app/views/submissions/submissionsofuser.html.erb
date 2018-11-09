@@ -20,7 +20,7 @@
                     <td><a href= "/submissions/<%= submission.id %>"><%= submission.title %></a></td>
                     <td><a href= "/users/<%= submission.user.id %>"> <%= submission.user.name %></a></td>
                     <td><%= submission.text %></td>
-                    <td><%= humanize_time(Time.now() - submission.created_at) %></td>
+                    <td><%= time_ago_in_words(submission.created_at) %></td>
                     <!--td><%= link_to 'Show', submission %></td>
                     <td><%= link_to 'Edit', edit_submission_path(submission) %></td>
                     <td><%= link_to 'Destroy', submission, method: :delete, data: { confirm: 'Are you sure?' } %></td -->
