@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   resources :comments
   resources :users
-  resources :submissions do 
+  resources :submissions do
     member do
       put "like", to: "submissions#upvote"
       put "dislike", to: "submissions#downvote"
     end
     resources :comments
   end
-  
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'submissions#index', type: :points
 
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
   get 'users/:uid' => 'users#index'
-  get 'logout', to: 'sessions#destroy'
+  get 'logout', to: 'sessions#destroy', as: :logout
   get 'submission/user/:id' => 'submissions#submissionsofuser', as: :submission_user
 
 end
