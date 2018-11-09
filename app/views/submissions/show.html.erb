@@ -16,42 +16,12 @@
                       <a href="" class="storylink"><%= @submission.title %></a>
                       <% if is_url?(@submission) %>
                         <span class="sitebit comhead">
-                          (
-                          <a href="#from?site=<%= @submission.url %>">
-                            <span class="sitestr"><%= @submission.url %></span>
-                          </a>
-                          )
+                          (<a href="#from?site=<%= @submission.url %>"><span class="sitestr"><%= @submission.url %></span></a>)
                         </span>
                       <% end %>
                     </td>
                   </tr>
-                  <tr>
-                      <td colspan="2"></td>
-                      <td class="subtext">
-                        <span class="score" id="score_<%= @submission.id %>"><%= pluralize(@submission.cached_votes_score, 'point') %></span>
-                        by
-                        <%= link_to @submission.user.name, @submission.user, class: :hnuser %> </a>
-                        <span class="age">
-                          <%= link_to humanize_time(Time.now() - @submission.created_at), @submission %>
-                        </span>
-                        <span id="unv_<%= @submission.id %>"></span>
-                        |
-                        <a href="#hide?id=<%= @submission.id %>&amp;goto=item%3Fid%3D<%= @submission.id %>&amp;auth=92cb51c4b464e08e6189f52037c4afb9a78cf472">hide</a>
-                        |
-                        <a href="" class="hnpast">past</a>
-                        |
-                        <%= link_to 'web', "https://www.google.com/search?q=#{CGI.escape @submission.title}" %>
-                        |
-
-                        <%= link_to 'discuss', submission_path %>
-                        |
-                        <%= link_to 'Upvote',  like_submission_path(@submission), method: :put %>
-                            <span>=></span> <%= @submission.cached_votes_up %>
-                        |
-                        <%= link_to 'Downvote', dislike_submission_path(@submission), method: :put %>
-                            <span>=></span> <%= @submission.cached_votes_down %>
-
-                  </tr>
+                  <%= render partial: 'subtitle', locals: {submission: @submission} %>
                   <tr style="height:2px"></tr>
                   <tr>
                       <td colspan="2"></td>
