@@ -19,7 +19,7 @@ class SubmissionsController < ApplicationController
 
   def submissionsofuser
     @users = User.all
-    @submissions = Submission.all.order("points DESC")
+    @submissions = Submission.all.order(cached_votes_total: :desc)
   end
 
   # GET /submissions/ask
