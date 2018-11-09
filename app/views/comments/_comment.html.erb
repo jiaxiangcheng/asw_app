@@ -10,6 +10,11 @@
 			<% if comment.user == current_user %>
 				<%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?'} %>
 			<% end %>
+	    <%= link_to 'Upvote',  like_comment_path(comment), method: :put %>
+	      <span>=></span> <%= comment.cached_votes_up %>
+	    |
+	    <%= link_to 'Downvote', dislike_comment_path(comment), method: :put %>
+	      <span>=></span> <%= comment.cached_votes_down %>
 		</div>
 	</div>
 <% end %>

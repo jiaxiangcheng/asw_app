@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    if current_user 
+    if current_user
       @submission = Submission.find(params[:submission_id])
       @comment = @submission.comments.new(comment_params)
       @comment.user = current_user
@@ -23,9 +23,9 @@ class CommentsController < ApplicationController
           format.json { render json: @comment.errors, status: :unprocessable_entity }
         end
       end
-    else 
+    else
       redirect_to '/auth/google_oauth2'
-    end 
+    end
   end
 
 
@@ -52,7 +52,27 @@ class CommentsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Comment was successfully destroyed.' }
         format.json { head :no_content }
       end
-    else 
+    else
+      redirect_to '/auth/google_oauth2'
+    end
+  end
+
+  def upvote
+    if current_user
+      @comment = Comment.find(params[:id])
+      @comment.upvote_by current_user
+      redirect_to @comment.submission
+    else
+      redirect_to '/auth/google_oauth2'
+    end
+  end
+
+  def downvote
+    if current_user
+      @comment = Comment.find(params[:id])
+      @comment.downvote_by current_user
+      redirect_to @comment.submission
+    else
       redirect_to '/auth/google_oauth2'
     end
   end
