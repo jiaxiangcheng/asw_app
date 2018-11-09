@@ -16,7 +16,7 @@
     <a href="#" >favourite</a>
     |
     <% if submission.comments.count == 0 %>
-      discuss
+      <%= link_to "discuss", submission %>
     <% else %>
       <%= link_to pluralize(submission.comments.count, 'comment'), submission %>
     <% end %>
