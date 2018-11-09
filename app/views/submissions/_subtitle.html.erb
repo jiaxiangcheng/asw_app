@@ -5,7 +5,7 @@
     by
     <%= link_to submission.user.name, submission.user, class: :hnuser %> </a>
     <span class="age">
-      <%= link_to humanize_time(Time.now() - submission.created_at), submission %>
+      <%= link_to time_ago_in_words(submission.created_at), submission %>
     </span>
     <span id="unv_<%= submission.id %>"></span>
     |
