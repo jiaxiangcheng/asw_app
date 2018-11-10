@@ -3,6 +3,7 @@ class Submission < ApplicationRecord
     validate :check_not_both
     validate :correct_url_format
     belongs_to :user
+    validates :user, :presence => true
     acts_as_votable
     has_many :comments
     private
