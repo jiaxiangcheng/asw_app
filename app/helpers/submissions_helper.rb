@@ -12,4 +12,9 @@ module SubmissionsHelper
   def is_url?(submission)
     return submission.text == ''
   end
+
+  # extracts host from uri
+  def shorten_url(url)
+    return URI.parse(url).host
+  end
 end

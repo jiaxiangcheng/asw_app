@@ -13,10 +13,10 @@
               </center>
             </td>
             <td class="title">
-              <a href="" class="storylink"><%= @submission.title %></a>
+              <a href="<%= @submission.url %>" class="storylink"><%= @submission.title %></a>
               <% if is_url?(@submission) %>
                 <span class="sitebit comhead">
-                  (<a href="#from?site=<%= @submission.url %>"><span class="sitestr"><%= @submission.url %></span></a>)
+                  (<a href="<%= submissions_path %>?site=<%= shorten_url(@submission.url) %>"><span class="sitestr"><%= shorten_url(@submission.url) %></span></a>)
                 </span>
               <% end %>
             </td>
