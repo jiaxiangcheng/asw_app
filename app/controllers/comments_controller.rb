@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
       @submission = Submission.find(params[:submission_id])
       @comment = @submission.comments.new(comment_params)
       @comment.user = current_user
+      @submission.replies << @comment
 
       respond_to do |format|
         if @comment.save
