@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181109174837) do
+ActiveRecord::Schema.define(version: 20181111212630) do
 
   create_table "comments", force: :cascade do |t|
     t.integer "submission_id"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 20181109174837) do
     t.integer "cached_weighted_score", default: 0
     t.integer "cached_weighted_total", default: 0
     t.float "cached_weighted_average", default: 0.0
+    t.string "parent_type"
+    t.integer "parent_id"
+    t.index ["parent_type", "parent_id"], name: "index_comments_on_parent_type_and_parent_id"
     t.index ["submission_id"], name: "index_comments_on_submission_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -44,7 +47,6 @@ ActiveRecord::Schema.define(version: 20181109174837) do
     t.integer "cached_weighted_score", default: 0
     t.integer "cached_weighted_total", default: 0
     t.float "cached_weighted_average", default: 0.0
-    t.string "type"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 

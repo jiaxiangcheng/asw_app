@@ -1,20 +1,57 @@
-<%= div_for(comment) do %>
-	<div class="comments_wrapper clearfix">
-		<div class="pull-left">
-			<p class ="lead"><%= comment.body %></p>
-			<p><small>Submitted <strong><%= time_ago_in_words(comment.created_at) %> ago</strong> by
-				<%= comment.user.name %></small></p>
-		</div>
+<%#= comment.inspect %>
+<tr>
+	<td>
+		<table>
+			<tbody>
+				<tr>
+					<td class="ind">
+						<%= image_tag("s.gif", width: 40*depth, height: 1) %>
+					</td>
+					<td class="votelinks" valign="top">
+						<center>
+							<%= link_to comment.submission do %>
+								<div class="votearrow" title="upvote"></div>
+							<% end %>
+						</center>
+					</td>
+					<td class="default">
+						<div style="margin-top:2px; margin-bottom:-10px;">
+							<span class="comhead">
+        				<%= link_to(comment.user.name, comment.user, class: "hnuser") %>
+								<span class="age">
+									<%= link_to(time_ago_in_words(comment.created_at) + " ago", comment.submission) %>
+								</span>
+								<% if comment.user == current_user %>
+									 |
 
-		<div class="btn-group pull-right">
-			<% if comment.user == current_user %>
-				<%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?'} %>
-			<% end %>
-	    <%= link_to 'Upvote',  like_comment_path(comment), method: :put %>
-	      <span>=></span> <%= comment.cached_votes_up %>
-	    |
-	    <%= link_to 'Downvote', dislike_comment_path(comment), method: :put %>
-	      <span>=></span> <%= comment.cached_votes_down %>
-		</div>
-	</div>
-<% end %>
+									<%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?'} %>
+								<% end %>
+						    <%= link_to 'Upvote',  like_comment_path(comment), method: :put %>
+						      <span>=></span> <%= comment.cached_votes_up %>
+						     |
+						    <%= link_to 'Downvote', dislike_comment_path(comment), method: :put %>
+						      <span>=></span> <%= comment.cached_votes_down %>
+              </span>
+						</div>
+						<br>
+						<div class="comment">
+              <span class="commtext c00"><%= comment.body %></span>
+              <div class="reply">
+								<p>
+									<font size="1">
+                    <u>
+											<%= link_to("reply", comment) %>
+										</u>
+                  </font>
+      					</p>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<% if comment.replies.any? %>
+			<%= render partial: comment.replies, locals: {depth: depth+1} if comment.replies.any? %>
+		<% end %>
+	</td>
+</tr>

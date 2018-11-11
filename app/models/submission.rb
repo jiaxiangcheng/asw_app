@@ -6,6 +6,7 @@ class Submission < ApplicationRecord
     validates :user, :presence => true
     acts_as_votable
     has_many :comments
+    has_many   :replies, as: :parent, class_name: "Comment", inverse_of: :parent, dependent: :destroy
     private
     def correct_url_format
         unless url.blank?
