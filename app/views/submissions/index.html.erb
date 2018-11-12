@@ -25,11 +25,13 @@
                   <% end %>
                 </td>
                 <td class="title" valign="top">
-                  <a href="<%= submission.url %>" class="storylink"><%= submission.title %></a>
                   <% if is_url?(submission) %>
+                    <a href="<%= submission.url %>" class="storylink"><%= submission.title %></a>
                     <span class="sitebit comhead">
                       (<a href="<%= submissions_path %>?site=<%= shorten_url(submission.url) %>"><span class="sitestr"><%= shorten_url(submission.url) %></span></a>)
                     </span>
+                  <% else # if ask %>
+                    <%= link_to submission.title, submission, class: "storylink" %>
                   <% end %>
                 </td>
               </tr>
