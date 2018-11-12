@@ -62,7 +62,7 @@ class CommentsController < ApplicationController
     if current_user
       @comment = Comment.find(params[:id])
       @comment.upvote_by current_user
-      redirect_to @comment.submission
+      redirect_to params.key?(:goto) ? params[:goto] : root_path
     else
       redirect_to '/auth/google_oauth2'
     end
@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
     if current_user
       @comment = Comment.find(params[:id])
       @comment.downvote_by current_user
-      redirect_to @comment.submission
+      redirect_to params.key?(:goto) ? params[:goto] : root_path
     else
       redirect_to '/auth/google_oauth2'
     end
@@ -82,7 +82,7 @@ class CommentsController < ApplicationController
     if current_user
       @comment = Comment.find(params[:id])
       @comment.unvote_by current_user
-      redirect_to @comment.submission
+      redirect_to params.key?(:goto) ? params[:goto] : root_path
     end
   end
 

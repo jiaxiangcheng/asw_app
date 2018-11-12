@@ -6,18 +6,19 @@
           <tr class="athing" id="<%= @submission.id %>">
             <td class="title" valign="top" align="right"><span class="rank"></span></td>
             <td>
+              <% url = request.original_url + "#" + @submission.id.to_s %>
               <% if current_user and current_user.voted_up_on? @submission %>
-                <%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_submission_path(@submission), method: :put, local: false %>
+                <%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_submission_path(@submission, goto: url), method: :put, local: false %>
                 <br>
-                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(@submission), method: :put %>
+                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(@submission, goto: url), method: :put %>
               <% elsif current_user and current_user.voted_down_on? @submission %>
-                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(@submission), method: :put %>
+                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(@submission, goto: url), method: :put %>
                 <br>
-                <%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_submission_path(@submission), method: :put %>
+                <%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_submission_path(@submission, goto: url), method: :put %>
               <% else %>
-                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(@submission), method: :put %>
+                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(@submission, goto: url), method: :put %>
                 <br>
-                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(@submission), method: :put %>
+                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(@submission, goto: url), method: :put %>
               <% end %>
             </td>
             <td class="title">
