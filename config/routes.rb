@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
   get 'my_comments' => 'comments#my_comments', as: :my_comments
   get 'my_submissions' => 'submissions#my_submissions', as: :my_submissions
+  get 'my_voted_comments' => 'comments#my_voted_comments', as: :my_voted_comments
+  get 'my_voted_submissions' => 'submissions#my_voted_submissions', as: :my_voted_submissions
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
