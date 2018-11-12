@@ -48,10 +48,31 @@ class CommentsController < ApplicationController
     end
   end
 
+  def createreply
+    if current_user
+      @comment = Comment.find(params[:id])
+      reply = @comment.replies.new(reply_params)
+      reply.user = @comment.user
+      reply.submission = @comment.submission
+      reply.parent = @comment
+      respond_to do |format|
+        if reply.save
+          format.html { redirect_to reply.submission, notice: 'Reply was successfully created.' }
+          format.json { render json: reply, status: :created, location: reply }
+        else
+          format.html { render action: "new" }
+          format.json { render json: reply.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to '/auth/google_oauth2'
+    end
+  end
+
   def showreply
     if current_user
-      @submission = Submission.find(params[:submission_id])
       @comment = Comment.find(params[:id])
+      @submission = @comment.submission
     else
       redirect_to '/auth/google_oauth2'
     end
@@ -122,5 +143,9 @@ class CommentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
       params.require(:comment).permit(:submission_id, :body, :user_id)
+    end
+
+    def reply_params
+      params.require(:comment).permit(:id, :body)
     end
 end
