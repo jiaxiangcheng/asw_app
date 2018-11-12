@@ -48,6 +48,14 @@ class CommentsController < ApplicationController
     end
   end
 
+  def showreply
+    if current_user
+      @submission = Submission.find(params[:submission_id])
+      @comment = Comment.find(params[:id])
+    else
+      redirect_to '/auth/google_oauth2'
+    end
+  end
 
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
