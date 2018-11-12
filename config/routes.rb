@@ -31,5 +31,5 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'users/:uid' => 'users#index'
   get 'logout', to: 'sessions#destroy', as: :logout
-
+  get '/submissions/:submission_id/comments/:id/showreply', to: 'comments#showreply'
 end

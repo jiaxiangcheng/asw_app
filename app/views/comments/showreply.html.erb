@@ -1,0 +1,26 @@
+<% content_for :body do %>
+    <tr>
+      <td>
+        <table class="fatitem" border="0">
+            <tr>
+                <td>
+                    <%= link_to @comment.user.name, @comment.user %>
+                    <%= time_ago_in_words(@comment.created_at) %> | on: <%= link_to @submission.title, @submission %>
+                </td>
+            </tr>
+            <tr><td><%= @comment.body %></td></tr>
+            <tr>
+                <td>
+                    <%= simple_form_for [@submission, Comment.new] do |f| %>
+                        <%= f.hidden_field :parent_type, :value => 'reply' %>
+                        <%= f.text_area :body, rows: 7, cols: 50 %>
+                        <br>
+                        <br>
+                        <%= f.submit "Reply" %>
+                    <% end %>
+                </td>
+            </tr>
+        </table>
+      </td>
+    </tr>
+<% end %>

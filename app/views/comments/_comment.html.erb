@@ -44,7 +44,8 @@
 								<p>
 									<font size="1">
                     <u>
-											<%= link_to("reply", comment) %>
+											
+											<a href="/submissions/<%= comment.submission_id %>/comments/<%= comment.id %>/showreply">reply</a>
 										</u>
                   </font>
       					</p>
