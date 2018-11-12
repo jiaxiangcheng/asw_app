@@ -11,11 +11,11 @@ class SubmissionsController < ApplicationController
     if params.key?(:type) && params[:type] == :created_at
       @submissions = Submission.all.order("created_at DESC")
     elsif params.key?(:type) && params[:type] == :points
-      @submissions = Submission.all.order(cached_votes_total: :desc)
+      @submissions = Submission.all.order(cached_votes_score: :desc)
     elsif params.key?(:type) && params[:type] == :ask
-      @submissions = Submission.all.order(cached_votes_total: :desc).select { |s| s.url == ""}
+      @submissions = Submission.all.order(cached_votes_score: :desc).select { |s| s.url == ""}
     else
-      @submissions = Submission.all.order(cached_votes_total: :desc)
+      @submissions = Submission.all.order(cached_votes_score: :desc)
     end
   end
 
@@ -36,11 +36,6 @@ class SubmissionsController < ApplicationController
       @submissions = Submission.all
     end
     render "index"
-  end
-
-  def submissionsofuser
-    @users = User.all
-    @submissions = Submission.all.order(cached_votes_total: :desc)
   end
 
   # GET /submissions/ask
