@@ -8,12 +8,22 @@
                 <td class="title" valign="top" align="right" width="23px">
                   <span class="rank"><%= index + 1 %>.</span>
                 </td>
-                <td class="votelinks" valign="top">
-                  <center>
-
-                  </center>
+                <td valign="center" align="center">
+                  <% if current_user and current_user.voted_up_on? submission %>
+                    <%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_submission_path(submission), method: :put, local: false %>
+                    <br>
+                    <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(submission), method: :put %>
+                  <% elsif current_user and current_user.voted_down_on? submission %>
+                    <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(submission), method: :put %>
+                    <br>
+                    <%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_submission_path(submission), method: :put %>
+                  <% else %>
+                    <%= link_to image_tag("uparrow.gif", title: "upvote"), like_submission_path(submission), method: :put %>
+                    <br>
+                    <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_submission_path(submission), method: :put %>
+                  <% end %>
                 </td>
-                <td class="title">
+                <td class="title" valign="top">
                   <a href="<%= submission.url %>" class="storylink"><%= submission.title %></a>
                   <% if is_url?(submission) %>
                     <span class="sitebit comhead">

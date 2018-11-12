@@ -20,11 +20,5 @@
     <% else %>
       <%= link_to pluralize(submission.comments.count, 'comment'), submission %>
     <% end %>
-    |
-    <%= link_to 'Upvote',  like_submission_path(submission), method: :put %>
-      <span>=></span> <%= submission.cached_votes_up %>
-    |
-    <%= link_to 'Downvote', dislike_submission_path(submission), method: :put %>
-      <span>=></span> <%= submission.cached_votes_down %>
   </td>
 </tr>

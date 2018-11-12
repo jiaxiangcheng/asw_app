@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     member do
       put "like", to: "comments#upvote"
       put "dislike", to: "comments#downvote"
+      put "unvote", to: "comments#unvote"
     end
   end
   resources :users
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
     member do
       put "like", to: "submissions#upvote"
       put "dislike", to: "submissions#downvote"
+      put "unvote", to: "submissions#unvote"
     end
     resources :comments
   end

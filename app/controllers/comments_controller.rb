@@ -78,6 +78,14 @@ class CommentsController < ApplicationController
     end
   end
 
+  def unvote
+    if current_user
+      @comment = Comment.find(params[:id])
+      @comment.unvote_by current_user
+      redirect_to @comment.submission
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
