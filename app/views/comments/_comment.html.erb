@@ -1,5 +1,4 @@
-<%#= comment.inspect %>
-<tr>
+<tr id="comment<%= comment.id %>">
 	<td>
 		<table>
 			<tbody>
@@ -7,12 +6,20 @@
 					<td class="ind">
 						<%= image_tag("s.gif", width: 40*depth, height: 1) %>
 					</td>
-					<td class="votelinks" valign="top">
-						<center>
-							<%= link_to comment.submission do %>
-								<div class="votearrow" title="upvote"></div>
-							<% end %>
-						</center>
+					<td>
+						<% if current_user and current_user.voted_up_on? comment %>
+							<%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_comment_path(comment), method: :put, local: false %>
+							<br>
+							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment), method: :put %>
+						<% elsif current_user and current_user.voted_down_on? comment %>
+							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment), method: :put %>
+							<br>
+							<%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_comment_path(comment), method: :put %>
+						<% else %>
+							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment), method: :put %>
+							<br>
+							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment), method: :put %>
+						<% end %>
 					</td>
 					<td class="default">
 						<div style="margin-top:2px; margin-bottom:-10px;">
@@ -26,11 +33,6 @@
 
 									<%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?'} %>
 								<% end %>
-						    <%= link_to 'Upvote',  like_comment_path(comment), method: :put %>
-						      <span>=></span> <%= comment.cached_votes_up %>
-						     |
-						    <%= link_to 'Downvote', dislike_comment_path(comment), method: :put %>
-						      <span>=></span> <%= comment.cached_votes_down %>
               </span>
 						</div>
 						<br>

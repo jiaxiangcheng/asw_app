@@ -106,7 +106,7 @@ class SubmissionsController < ApplicationController
     if current_user
       @submission = Submission.find(params[:id])
       @submission.upvote_by current_user
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: submissions_path)
     else
       redirect_to '/auth/google_oauth2'
     end
@@ -116,9 +116,17 @@ class SubmissionsController < ApplicationController
     if current_user
       @submission = Submission.find(params[:id])
       @submission.downvote_by current_user
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: submissions_path)
     else
       redirect_to '/auth/google_oauth2'
+    end
+  end
+
+  def unvote
+    if current_user
+      @submission = Submission.find(params[:id])
+      @submission.unvote_by current_user
+      redirect_back(fallback_location: submissions_path)
     end
   end
 
