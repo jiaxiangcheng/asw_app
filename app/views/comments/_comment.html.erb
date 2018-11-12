@@ -25,6 +25,7 @@
 					<td class="default">
 						<div style="margin-top:2px; margin-bottom:-10px;">
 							<span class="comhead">
+								<%= comment.cached_votes_score %> points by 
         				<%= link_to(comment.user.name, comment.user, class: "hnuser") %>
 								<span class="age">
 									<%= link_to(time_ago_in_words(comment.created_at) + " ago", comment.submission) %>
