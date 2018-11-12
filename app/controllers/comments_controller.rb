@@ -6,6 +6,15 @@ class CommentsController < ApplicationController
     @comments = Comment.all
   end
 
+  def my_comments
+    if current_user
+      @comments = Comment.where(user_id: current_user.id)
+    else
+      @comments = Comment.all
+    end
+    render "index"
+  end
+
   # POST /comments
   # POST /comments.json
   def create

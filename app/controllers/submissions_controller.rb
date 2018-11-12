@@ -19,6 +19,15 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def my_submissions
+    if current_user
+      @submissions = Submission.where(user_id: current_user.id)
+    else
+      @submissions = Comment.all
+    end
+    render "index"
+  end
+
   def submissionsofuser
     @users = User.all
     @submissions = Submission.all.order(cached_votes_total: :desc)

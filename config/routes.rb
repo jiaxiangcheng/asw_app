@@ -22,11 +22,12 @@ Rails.application.routes.draw do
   get 'news' => 'submissions#index', as: :news_menu, type: :points
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
+  get 'my_comments' => 'comments#my_comments', as: :my_comments
+  get 'my_submissions' => 'submissions#my_submissions', as: :my_submissions
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
   get 'users/:uid' => 'users#index'
   get 'logout', to: 'sessions#destroy', as: :logout
-  get 'submission/user/:id' => 'submissions#submissionsofuser', as: :submission_user
 
 end

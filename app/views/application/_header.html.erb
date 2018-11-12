@@ -14,8 +14,10 @@
       <% end %>
       <%= link_to 'new',  newest_menu_path %>
       |
-      <a href="#">threads</a>
-      |
+      <% if current_user %>
+        <%= link_to "threads", my_comments_path %>
+        |
+      <% end %>
       <%= link_to 'comments', comments_path %>
       |
       <a href="#">show</a>

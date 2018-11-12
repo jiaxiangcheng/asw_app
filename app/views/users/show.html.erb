@@ -31,10 +31,10 @@
                   </p>
 
                   <p>
-                    <%= link_to 'Comments', comments_path %>
+                    <%= link_to 'Comments', my_comments_path %>
                   </p>
                   <p>
-                    <%= link_to 'Submissions', submission_user_path %>
+                    <%= link_to 'Submissions', my_submissions_path %>
                   </p>
 
                   <% if current_user && current_user.id == @user.id %>
