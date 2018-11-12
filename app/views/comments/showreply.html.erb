@@ -11,8 +11,7 @@
             <tr><td><%= @comment.body %></td></tr>
             <tr>
                 <td>
-                    <%= simple_form_for [@submission, Comment.new] do |f| %>
-                        <%= f.hidden_field :parent_type, :value => 'reply' %>
+                    <%= form_with model: Comment.new, url: reply_comment_path, local: true do |f| %>
                         <%= f.text_area :body, rows: 7, cols: 50 %>
                         <br>
                         <br>

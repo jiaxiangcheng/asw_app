@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       put "like", to: "comments#upvote"
       put "dislike", to: "comments#downvote"
       put "unvote", to: "comments#unvote"
+      post "reply", to: "comments#createreply"
     end
   end
   resources :users
