@@ -9,7 +9,7 @@
                   <span class="rank"><%= index + 1 %>.</span>
                 </td>
                 <td>
-      						<% url = request.original_url + "#" + submission.id.to_s %>
+      						<% url = goto_url(submission.id) %>
                   <% if current_user and current_user.voted_up_on? submission %>
                     <%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_submission_path(submission, goto: url), method: :put, local: false %>
                     <br>
