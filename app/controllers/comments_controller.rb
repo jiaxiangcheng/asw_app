@@ -15,6 +15,16 @@ class CommentsController < ApplicationController
     render "index"
   end
 
+  # the comments are mine, the votes don't have to be
+  def my_voted_comments
+    if current_user
+      @comments = Comment.where(user_id: current_user.id).select {|s| s.cached_votes_total > 0}
+    else
+      @comments = Comment.all
+    end
+    render "index"
+  end
+
   # POST /comments
   # POST /comments.json
   def create
