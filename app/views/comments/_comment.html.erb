@@ -1,4 +1,4 @@
-<tr id="comment<%= comment.id %>">
+<tr id="<%= comment.id %>">
 	<td>
 		<table>
 			<tbody>
@@ -7,18 +7,19 @@
 						<%= image_tag("s.gif", width: 40*depth, height: 1) %>
 					</td>
 					<td>
+						<% url = request.original_url + "#" + comment.id.to_s %>
 						<% if current_user and current_user.voted_up_on? comment %>
-							<%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_comment_path(comment), method: :put, local: false %>
+							<%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_comment_path(comment, goto: url), method: :put, local: false %>
 							<br>
-							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment), method: :put %>
+							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment, goto: url), method: :put %>
 						<% elsif current_user and current_user.voted_down_on? comment %>
-							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment), method: :put %>
+							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment, goto: url), method: :put %>
 							<br>
-							<%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_comment_path(comment), method: :put %>
+							<%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_comment_path(comment, goto: url), method: :put %>
 						<% else %>
-							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment), method: :put %>
+							<%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(comment, goto: url), method: :put %>
 							<br>
-							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment), method: :put %>
+							<%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(comment, goto: url), method: :put %>
 						<% end %>
 					</td>
 					<td class="default">
@@ -31,7 +32,7 @@
 								<% if comment.user == current_user %>
 									 |
 
-									<%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?'} %>
+									<%= link_to 'Destroy', comment_path(goto: url), method: :delete, data: { confirm: 'Are you sure?'} %>
 								<% end %>
               </span>
 						</div>
