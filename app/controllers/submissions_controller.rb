@@ -23,7 +23,17 @@ class SubmissionsController < ApplicationController
     if current_user
       @submissions = Submission.where(user_id: current_user.id)
     else
-      @submissions = Comment.all
+      @submissions = Submission.all
+    end
+    render "index"
+  end
+
+  # the submissions are mine, the votes don't have to be
+  def my_voted_submissions
+    if current_user
+      @submissions = Submission.where(user_id: current_user.id).select {|s| s.cached_votes_total > 0}
+    else
+      @submissions = Submission.all
     end
     render "index"
   end
