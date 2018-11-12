@@ -7,7 +7,7 @@
 						<%= image_tag("s.gif", width: 40*depth, height: 1) %>
 					</td>
 					<td>
-						<% url = request.original_url + "#" + comment.id.to_s %>
+						<% url = goto_url(comment.id) %>
 						<% if current_user and current_user.voted_up_on? comment %>
 							<%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_comment_path(comment, goto: url), method: :put, local: false %>
 							<br>
