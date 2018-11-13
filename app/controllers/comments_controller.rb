@@ -15,10 +15,10 @@ class CommentsController < ApplicationController
     render "index"
   end
 
-  # the comments are mine, the votes don't have to be
-  def my_voted_comments
+  # comments I voted on
+  def voted_comments
     if current_user
-      @comments = Comment.where(user_id: current_user.id).select {|s| s.cached_votes_total > 0}
+      @comments = Comment.all.select {|c| current_user.voted_for? c }
     else
       @comments = Comment.all
     end

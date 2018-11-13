@@ -29,9 +29,9 @@ class SubmissionsController < ApplicationController
   end
 
   # the submissions are mine, the votes don't have to be
-  def my_voted_submissions
+  def voted_submissions
     if current_user
-      @submissions = Submission.where(user_id: current_user.id).select {|s| s.cached_votes_total > 0}
+      @submissions = Submission.all.select {|s| current_user.voted_for? s }
     else
       @submissions = Submission.all
     end
