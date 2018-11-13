@@ -32,10 +32,10 @@
 
                   <p><%= link_to 'Comments', my_comments_path %></p>
                   <p><%= link_to 'Submissions', my_submissions_path %></p>
-                  <p><%= link_to 'Upvoted Comments', my_voted_comments_path %></p>
-                  <p><%= link_to 'Upvoted Submissions', my_voted_submissions_path %></p>
 
                   <% if current_user && current_user.id == @user.id %>
+                    <p><%= link_to 'Upvoted Comments', my_voted_comments_path %></p>
+                    <p><%= link_to 'Upvoted Submissions', my_voted_submissions_path %></p>
                     <%= link_to '<button type="button">Edit User</button>'.html_safe, edit_user_path(@user) %>
                   <% end %>
 
