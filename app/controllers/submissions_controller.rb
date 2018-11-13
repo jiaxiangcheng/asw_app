@@ -71,7 +71,7 @@ class SubmissionsController < ApplicationController
       # sub. with this url exists (and is not ask)
       if new_url != "" && Submission.exists?(url: new_url)
         existing_submission = Submission.find_by(url: new_url)
-        redirect_to item_path(id: existing_submission.id)
+        redirect_to submission_path(id: existing_submission.id)
       else # create new submission
         @submission = current_user.submissions.create(submission_params)
         @submission.created_at = Time.now()
