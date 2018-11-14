@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
     if current_user
       @comment = Comment.find(params[:id])
       reply = @comment.replies.new(reply_params)
-      reply.user = @comment.user
+      reply.user = current_user
       reply.submission = @comment.submission
       reply.parent = @comment
       respond_to do |format|
