@@ -9,7 +9,8 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "aswlab.herokuapp.com"
+# host: "aswlab.herokuapp.com"
+host: "localhost:3000"
 basePath: "/"
 tags:
 - name: "pet"
@@ -25,7 +26,6 @@ tags:
     description: "Find out more about our store"
     url: "http://swagger.io"
 schemes:
-- "https"
 - "http"
 paths:
   /submissions:
