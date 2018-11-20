@@ -8,6 +8,7 @@ class User < ApplicationRecord
           user.uid = auth.uid
           user.name = auth.info.name
           user.email = auth.info.email
+          user.token = auth.credentials.token
           user.save!
         end
       end
