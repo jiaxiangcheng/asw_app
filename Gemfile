@@ -34,6 +34,7 @@ gem 'omniauth-google-oauth2'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'simple_form', '~> 3.5'
 gem 'record_tag_helper', '~> 1.0'
+gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
@@ -57,4 +58,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
