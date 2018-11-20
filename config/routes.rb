@@ -33,4 +33,6 @@ Rails.application.routes.draw do
   get 'users/:uid' => 'users#index'
   get 'logout', to: 'sessions#destroy', as: :logout
   get '/submissions/:submission_id/comments/:id/showreply', to: 'comments#showreply'
+
+  get '/api', :to => redirect('/swagger-editor/index.html?url=/api-docs.yaml'), as: :swagger_editor
 end
