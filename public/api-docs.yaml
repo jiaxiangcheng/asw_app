@@ -1,14 +1,11 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  description: "This is a sample server Hacker News server."
   version: "1.0.0"
-  title: "Swagger Petstore"
+  title: "Hacker News"
   termsOfService: "http://swagger.io/terms/"
   contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    email: "jiaxiangcheng7@gmail.com"
 # host: "aswlab.herokuapp.com"
 host: "localhost:3000"
 basePath: "/"
@@ -67,6 +64,23 @@ paths:
           description: "The request has been fulfilled and has resulted in one or more new resources being created."
         405:
           description: "Invalid input"
+  /news:
+    get:
+      tags:
+      - "submission"
+      summary: "Get submissions ordered by points desc"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "getSubmissionsOrderedByPoints"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Submission"
+        400:
+          description: "Invalid status value"        
   /newest:
     get:
       tags:
@@ -84,6 +98,50 @@ paths:
             $ref: "#/definitions/Submission"
         400:
           description: "Invalid status value"
+  /ask:
+    get:
+      tags:
+      - "submission"
+      summary: "Get submissions without url"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "getSubmissionsWithoutUrl"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Submission"
+        400:
+          description: "Invalid status value"
+  /submissions/{submissionId}:
+    get:
+      tags:
+      - "submission"
+      summary: "Find submission by ID"
+      description: "Returns a single submission"
+      operationId: "getSubmissionById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "submissionId"
+        in: "path"
+        description: "ID of submission to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Submission"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Submission not found"
+      security:
+      - api_key: []
   /pet:
     post:
       tags:
