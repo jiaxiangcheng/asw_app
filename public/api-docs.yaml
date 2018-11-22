@@ -45,6 +45,8 @@ paths:
     post:
       tags:
       - "submission"
+      security:
+        - apiKey: []
       summary: "Add a new submission to the Hacker News"
       description: ""
       operationId: "addSubmission"
@@ -64,6 +66,38 @@ paths:
           description: "The request has been fulfilled and has resulted in one or more new resources being created."
         405:
           description: "Invalid input"
+  /submissions/ask:
+    post:
+      tags:
+      - "submission"
+      security:
+        - apiKey: []
+      summary: "Add a new ask to the Hacker News"
+      description: ""
+      operationId: "addAsk"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "User ID"
+        in: "path"
+        description: "ID of user who create the ask"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "ask field" 
+        in: body
+        description: ask object
+        required: true
+        schema:
+          $ref: '#/definitions/Ask'
+      responses:
+        201:
+          description: "The request has been fulfilled and has resulted in one or more new resources being created."
+        405:
+          description: "Invalid input"
+
   /news:
     get:
       tags:
@@ -140,8 +174,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Submission not found"
-      security:
-      - api_key: []
   /pet:
     post:
       tags:
@@ -165,10 +197,6 @@ paths:
       responses:
         405:
           description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
     put:
       tags:
       - "pet"
@@ -195,10 +223,6 @@ paths:
           description: "Pet not found"
         405:
           description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
   /pet/findByStatus:
     get:
       tags:
@@ -232,10 +256,7 @@ paths:
               $ref: "#/definitions/Pet"
         400:
           description: "Invalid status value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+
   /pet/findByTags:
     get:
       tags:
@@ -264,10 +285,7 @@ paths:
               $ref: "#/definitions/Pet"
         400:
           description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+
       deprecated: true
   /pet/{petId}:
     get:
@@ -295,8 +313,7 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Pet not found"
-      security:
-      - api_key: []
+
     post:
       tags:
       - "pet"
@@ -328,10 +345,7 @@ paths:
       responses:
         405:
           description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+
     delete:
       tags:
       - "pet"
@@ -357,10 +371,7 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+
   /pet/{petId}/uploadImage:
     post:
       tags:
@@ -394,10 +405,7 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/ApiResponse"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+
   /store/inventory:
     get:
       tags:
@@ -416,8 +424,7 @@ paths:
             additionalProperties:
               type: "integer"
               format: "int32"
-      security:
-      - api_key: []
+
   /store/order:
     post:
       tags:
@@ -679,17 +686,11 @@ paths:
         404:
           description: "User not found"
 securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
+  apiKey:
+    type: apiKey
+    description: Please enter your Goolge token. You can get it, in your user profile.
+    name: auth_key
+    in: header
 definitions:
   Order:
     type: "object"
@@ -825,6 +826,20 @@ definitions:
           $ref: "#/definitions/Tag"
     xml:
       name: "Submission"
+  Ask:
+    description: Ask object
+    properties:
+      title:
+        type: string
+        description: task object name
+      url:
+        type: string
+        description: task description
+      text:
+        type: string
+        description: task description
+    required:
+      - "title"
   ApiResponse:
     type: "object"
     properties:
@@ -835,6 +850,3 @@ definitions:
         type: "string"
       message:
         type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
