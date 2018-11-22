@@ -32,49 +32,11 @@ paths:
     get:
       tags:
       - "submission"
-      summary: "Get all Submissions"
+      summary: "Finds Pets by status"
       description: "Multiple status values can be provided with comma separated strings"
       operationId: "getAllSubmissions"
       produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Submission"
-        400:
-          description: "Invalid status value"
-    post:
-      tags:
-      - "submission"
-      summary: "Add a new submission to the Hacker News"
-      description: ""
-      operationId: "addSubmission"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Submission object that needs to be added to the Hacker News"
-        required: true
-        schema:
-          $ref: "#/definitions/Submission"
-      responses:
-        201:
-          description: "The request has been fulfilled and has resulted in one or more new resources being created."
-        405:
-          description: "Invalid input"
-  /newest:
-    get:
-      tags:
-      - "submission"
-      summary: "Get submissions ordered by created time desc"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "getSubmissionsOrderedByCreatedTime"
-      produces:
+      - "application/xml"
       - "application/json"
       parameters: []
       responses:
