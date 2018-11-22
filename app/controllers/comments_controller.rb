@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    if current_user
+    if user_is_logged?
       @submission = Submission.find(params[:submission_id])
       @comment = @submission.comments.new(comment_params)
       @comment.user = current_user
@@ -98,7 +98,7 @@ class CommentsController < ApplicationController
     if current_user
       @comment.destroy
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Comment was successfully destroyed.' }
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path, notice: 'Comment was successfully destroyed.' }
         format.json { head :no_content }
       end
     else
