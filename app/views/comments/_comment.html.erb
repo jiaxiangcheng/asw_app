@@ -31,9 +31,8 @@
 									<%= link_to(time_ago_in_words(comment.created_at) + " ago", comment.submission) %>
 								</span>
 								<% if comment.user == current_user %>
-									 |
-
-									<%= link_to 'Destroy', comment_path(goto: url), method: :delete, data: { confirm: 'Are you sure?'} %>
+									|
+									<%= link_to 'Destroy', comment_path(comment, goto: submission_path), method: :delete, data: { confirm: 'Are you sure?'} %>
 								<% end %>
               </span>
 						</div>
@@ -44,7 +43,7 @@
 								<p>
 									<font size="1">
                     <u>
-											
+
 											<a href="/submissions/<%= comment.submission_id %>/comments/<%= comment.id %>/showreply">reply</a>
 										</u>
                   </font>
