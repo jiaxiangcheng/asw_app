@@ -36,10 +36,4 @@ Rails.application.routes.draw do
 
   get '/api', :to => redirect('/swagger-editor/index.html?url=/api-docs.yaml'), as: :swagger_editor
 
-
-  #API ROUTES 
-  post 'submissions' => 'submissions#create'
-  post 'submissions/ask' => 'submissions#apiCreateAsk'
-  post 'submissions/url' => 'submissions#apiCreateUrl'
-
 end

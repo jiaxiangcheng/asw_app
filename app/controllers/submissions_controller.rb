@@ -20,7 +20,7 @@ class SubmissionsController < ApplicationController
   end
 
   def my_submissions
-    if current_user
+    if user_is_logged?
       @submissions = Submission.where(user_id: current_user.id)
     else
       @submissions = Submission.all
@@ -30,7 +30,7 @@ class SubmissionsController < ApplicationController
 
   # the submissions are mine, the votes don't have to be
   def voted_submissions
-    if current_user
+    if user_is_logged?
       @submissions = Submission.all.select {|s| current_user.voted_for? s }
     else
       @submissions = Submission.all
@@ -52,7 +52,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    if current_user
+    if user_is_logged?
       @submission = current_user.submissions.build
     else
       redirect_to '/auth/google_oauth2'
@@ -66,7 +66,7 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
-    if current_user
+    if user_is_logged?
       new_url = submission_params[:url]
       # sub. with this url exists (and is not ask)
       if new_url != "" && Submission.exists?(url: new_url)
@@ -92,47 +92,35 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # POST /submissions/ask
-  def apiCreateAsk
-    key = request.headers["auth_key"]
-    @user = User.find_by(token: key)
-    byebug
-      if @user.token == key
-        @submission = Submission.new(params.permit(:title, :text))
-        @submission.user_id = params[:id]
-        @submission.url = ''
-          if @submission.title != nil && @submission.save
-             render json: {status: 'SUCCES', message: 'Post saved', data: @submission}, status: :ok
-          else
-            render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
-          end
-      else
-        render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
-      end
-  end
-
-
   # PATCH/PUT /submissions/1
   # PATCH/PUT /submissions/1.json
   def update
-    respond_to do |format|
-      if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
-        format.json { render :show, status: :ok, location: @submission }
-      else
-        format.html { render :edit }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
+    if user_is_logged?
+      respond_to do |format|
+        if @submission.update(submission_params)
+          format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
+          format.json { render :show, status: :ok, location: @submission }
+        else
+          format.html { render :edit }
+          format.json { render json: @submission.errors, status: :unprocessable_entity }
+        end
       end
+    else 
+      format.json { render json: @submission.errors, status: :unprocessable_entity }
     end
   end
 
   # DELETE /submissions/1
   # DELETE /submissions/1.json
   def destroy
-    @submission.destroy
-    respond_to do |format|
-      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
-      format.json { head :no_content }
+    if user_is_logged?
+      @submission.destroy
+      respond_to do |format|
+        format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else 
+      format.json { render json: @submission.errors, status: :unprocessable_entity }
     end
   end
 
