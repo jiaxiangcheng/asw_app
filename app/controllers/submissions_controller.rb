@@ -64,7 +64,7 @@ class SubmissionsController < ApplicationController
   end
 
   # POST /submissions
-  # POST /submissions.json@
+  # POST /submissions.json
   def create
     if current_user
       new_url = submission_params[:url]
@@ -91,6 +91,26 @@ class SubmissionsController < ApplicationController
       redirect_to '/auth/google_oauth2'
     end
   end
+
+  # POST /submissions/ask
+  def apiCreateAsk
+    key = request.headers["auth_key"]
+    @user = User.find_by(token: key)
+    byebug
+      if @user.token == key
+        @submission = Submission.new(params.permit(:title, :text))
+        @submission.user_id = params[:id]
+        @submission.url = ''
+          if @submission.title != nil && @submission.save
+             render json: {status: 'SUCCES', message: 'Post saved', data: @submission}, status: :ok
+          else
+            render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+          end
+      else
+        render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+      end
+  end
+
 
   # PATCH/PUT /submissions/1
   # PATCH/PUT /submissions/1.json
