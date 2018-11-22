@@ -84,6 +84,21 @@ paths:
             $ref: "#/definitions/Submission"
         400:
           description: "Invalid status value"
+  /comments:
+    get:
+      tags:
+      - "comment"
+      summary: "Get all Comments"
+      description: ""
+      operationId: "getAllComments"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Comment"
   /pet:
     post:
       tags:
@@ -767,6 +782,17 @@ definitions:
           $ref: "#/definitions/Tag"
     xml:
       name: "Submission"
+  Comment:
+    type: "object"
+    required:
+    - "body"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      body:
+        type: "string"
+        example: "The comment body..."
   ApiResponse:
     type: "object"
     properties:
