@@ -1,6 +1,7 @@
 class Comment < ApplicationRecord
   validates :user, :presence => true
   validates :submission, :presence => true
+  validates :body, :presence => true
 
   acts_as_votable
 
