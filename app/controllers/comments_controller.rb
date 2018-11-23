@@ -40,7 +40,7 @@ class CommentsController < ApplicationController
             format.json { render json: @comment, status: :created, location: @comment }
           else
             format.html { render action: "new" }
-            format.json { render json: @comment.errors, status: :bad_request }
+            format.json { render json: {comment: @comment.errors }, status: :bad_request }
           end
         else # trying to comment not existing submission
             # format.html -> show default rails error page
