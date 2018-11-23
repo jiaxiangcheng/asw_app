@@ -3,7 +3,7 @@
   <td class="subtext">
     <span class="score" id="score_<%= submission.id %>"><%= submission.cached_votes_score %> points</span>
     by
-    <%= link_to submission.user.name, submission.user, class: :hnuser %> </a>
+    <%= link_to submission.user.name, submission.user, class: :hnuser %>
     <span class="age">
       <%= link_to time_ago_in_words(submission.created_at) + " ago", submission %>
     </span>
