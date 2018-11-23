@@ -36,4 +36,7 @@ Rails.application.routes.draw do
 
   get '/api', :to => redirect('/swagger-editor/index.html?url=/api-docs.yaml'), as: :swagger_editor
 
+  # custom error pages (not stack trace)
+  get "/404" => "errors#not_found"
+  get "/500" => "errors#exception"
 end

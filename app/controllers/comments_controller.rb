@@ -40,11 +40,11 @@ class CommentsController < ApplicationController
             format.json { render json: @comment, status: :created, location: @comment }
           else
             format.html { render action: "new" }
-            format.json { render json: @comment.errors, status: :unprocessable_entity }
+            format.json { render json: @comment.errors, status: :bad_request }
           end
         else # trying to comment not existing submission
             # format.html -> show default rails error page
-            format.json { render json: {error: "no submission found for given id"}, status: :not_found }
+            format.json { render json: {submission_id: "no submission found for this id"}, status: :not_found }
           end
       else # not authorized
         format.html { redirect_to '/auth/google_oauth2' }
