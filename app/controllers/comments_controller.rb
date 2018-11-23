@@ -28,23 +28,28 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    if user_is_logged?
-      @submission = Submission.find(params[:submission_id])
-      @comment = @submission.comments.new(comment_params)
-      @comment.user = current_user
-      @submission.replies << @comment
-
-      respond_to do |format|
-        if @comment.save
-          format.html { redirect_to @submission, notice: 'Comment was successfully created.' }
-          format.json { render json: @comment, status: :created, location: @comment }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @comment.errors, status: :unprocessable_entity }
-        end
+    respond_to do |format|
+      if user_is_logged?
+        if Submission.exists?(params[:submission_id])
+          @submission = Submission.find(params[:submission_id])
+          @comment = @submission.comments.new(comment_params)
+          @comment.user = current_user
+          @submission.replies << @comment
+          if @comment.save
+            format.html { redirect_to @submission, notice: 'Comment was successfully created.' }
+            format.json { render json: @comment, status: :created, location: @comment }
+          else
+            format.html { render action: "new" }
+            format.json { render json: @comment.errors, status: :unprocessable_entity }
+          end
+        else # trying to comment not existing submission
+            # format.html -> show default rails error page
+            format.json { render json: {error: "no submission found for given id"}, status: :not_found }
+          end
+      else # not authorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
       end
-    else
-      redirect_to '/auth/google_oauth2'
     end
   end
 

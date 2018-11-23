@@ -186,7 +186,7 @@ paths:
       parameters: []
       responses:
         200:
-          description: "successful operation"
+          description: "OK"
           schema:
             type: array
             items:
@@ -195,9 +195,7 @@ paths:
       tags:
       - "comment"
       summary: "Add a new comment to a submission"
-      description: ""
-      consumes:
-      - "application/json"
+      description: "Posts comment to submission and returns link to it in 'Location' header"
       parameters:
       - name: "Comment"
         in: "body"
@@ -209,7 +207,11 @@ paths:
         - apiKey: []
       responses:
         201:
-          description: "Comment created successfully"
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
 securityDefinitions:
   apiKey:
     type: "apiKey"
