@@ -20,5 +20,9 @@ module AswApp
         resource '*', headers: :any, methods: :any#[:get, :post, :options]
       end
     end
+
+    # custom error pages
+    # see: https://stackoverflow.com/questions/10253366/need-to-return-json-formatted-404-error-in-rails
+    config.exceptions_app = self.routes
   end
 end
