@@ -1,19 +1,78 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Submission:</strong>
-  <%= @comment.submission_id %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @comment.body %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @comment.user %>
-</p>
-
-<%= link_to 'Edit', edit_comment_path(@comment) %> |
-<%= link_to 'Back', comments_path %>
+<% content_for :body do %>
+  <tr>
+    <td>
+      <table class="fatitem" border="0">
+        <tbody>
+          <tr class="athing" id="<%= @comment.id %>">
+            <td class="title" valign="top" align="right"><span class="rank"></span></td>
+            <td>
+              <% url = goto_url(@comment.id) %>
+              <% if current_user and current_user.voted_up_on? @comment %>
+                <%= link_to image_tag("uparrow_clicked.gif", title: "undo upvote"), unvote_comment_path(@comment, goto: url), method: :put, local: false %>
+                <br>
+                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(@comment, goto: url), method: :put %>
+              <% elsif current_user and current_user.voted_down_on? @comment %>
+                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(@comment, goto: url), method: :put %>
+                <br>
+                <%= link_to image_tag("downarrow_clicked.gif", title: "undo downvote"), unvote_comment_path(@comment, goto: url), method: :put %>
+              <% else %>
+                <%= link_to image_tag("uparrow.gif", title: "upvote"), like_comment_path(@comment, goto: url), method: :put %>
+                <br>
+                <%= link_to image_tag("downarrow.gif", title: "downvote"), dislike_comment_path(@comment, goto: url), method: :put %>
+              <% end %>
+            </td>
+            <td class="subtext">
+              <span class="score" id="score_<%= @comment.id %>"><%= @comment.cached_votes_score %> points</span>
+              by
+              <%= link_to @comment.user.name, @comment.user, class: :hnuser %>
+              <span class="age">
+                <%= link_to time_ago_in_words(@comment.created_at) + " ago", @comment %>
+              </span>
+              <span id="unv_<%= @comment.id %>"></span>
+              |
+              <% if @comment.parent_type == "Submission" %>
+                <%= link_to "parent", submission_path(@comment.parent) %>
+              <% else %>
+                <%= link_to "parent", comment_path(@comment.parent) %>
+              <% end %>
+              |
+              <a href="#" >favourite</a>
+              | on:
+              <%= link_to :asdf, submission_path(@comment.submission) %>
+            </td>
+          </tr>
+          <tr style="height:2px"></tr>
+          <tr>
+            <td colspan="2"></td>
+            <td>
+              <span class="commtext c00">
+                <%= @comment.body %>
+              </span>
+            </td>
+          </tr>
+          <tr style="height:10px"></tr>
+          <tr>
+            <td colspan="2"></td>
+            <td>
+              <%= form_with model: Comment.new, url: reply_comment_path, local: true do |f| %>
+                <%= f.text_area :body, rows: 7, cols: 50 %>
+                <br>
+                <br>
+                <%= f.submit "Reply" %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <table class="comment-tree" border="0">
+        <tbody>
+          <% @comment.replies.each do |comment| %>
+            <%= render partial: comment, locals: {depth: 0} %>
+          <% end %>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+<% end %>
