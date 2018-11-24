@@ -202,7 +202,7 @@ paths:
         description: "Comment Text"
         required: true
         schema:
-          $ref: "#/definitions/Comment"
+          $ref: "#/definitions/CommentCreate"
       security:
         - apiKey: []
       responses:
@@ -255,7 +255,7 @@ paths:
         description: "Comment object to update"
         required: true
         schema:
-          $ref: "#/definitions/Comment"
+          $ref: "#/definitions/CommentUpdate"
       responses:
         200:
           description: "Successfully updated comment"
@@ -330,23 +330,49 @@ definitions:
   Comment:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "Unique identifier of this comment"
-      submission_id:
-        type: "integer"
-        description: "Unique identifier of the submission the comment belongs to"
       comment:
         type: "object"
         properties:
+          id:
+            type: "integer"
+            description: "Unique identifier of the comment"
+          submission_id:
+            type: "integer"
+            description: "Unique identifier of the submission the comment belongs to"
+          user_id:
+            type: "integer"
+            description: "Unique identifier of the user who created the comment"
+          body:
+            type: "string"
+            example: "The comment body..."
+            description: "Comment Text"
+  CommentCreate:
+    type: "object"
+    properties:
+      comment:
+        type: "object"
+        properties:
+          submission_id:
+            type: "integer"
+            description: "Unique identifier of the submission the comment belongs to"
           body:
             type: "string"
             example: "The comment body..."
             description: "Comment Text"
     required:
-    - "submission_id"
     - "comment"
-
+  CommentUpdate:
+      type: "object"
+      properties:
+        comment:
+          type: "object"
+          properties:
+            body:
+              type: "string"
+              example: "The comment body..."
+              description: "Comment Text"
+      required:
+      - "comment"
   ApiResponse:
     type: "object"
     properties:
