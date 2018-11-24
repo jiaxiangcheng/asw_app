@@ -42,8 +42,8 @@ class CommentsController < ApplicationController
   def create
     respond_to do |format|
       if user_is_logged?
-        if Submission.exists?(params[:submission_id])
-          @submission = Submission.find(params[:submission_id])
+        if Submission.exists?(params[:comment][:submission_id])
+          @submission = Submission.find(params[:comment][:submission_id])
           @comment = @submission.comments.new(comment_params)
           @comment.user = current_user
           @submission.replies << @comment
