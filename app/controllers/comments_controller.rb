@@ -90,12 +90,19 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1.json
   def update
     respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      if @comment == nil # no comment exists for id in path
+        format.json { render json: {id: "no comment found for this id"}, status: :not_found }
+      elsif user_is_logged? && @comment.user == current_user
+        if @comment.update(comment_params)
+          format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+          format.json { render :show, status: :ok, location: @comment }
+        else
+          format.html { render :edit }
+          format.json { render json: @comment.errors, status: :bad_request }
+        end
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it matches the user who created the comment"}, status: :unauthorized }
       end
     end
   end
@@ -145,12 +152,16 @@ class CommentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
-      @comment = Comment.find(params[:id])
+      if Comment.exists?(params[:id])
+        @comment = Comment.find(params[:id])
+      else
+        @comment = nil
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:submission_id, :body, :user_id)
+      params.require(:comment).permit(:body)
     end
 
     def reply_params
