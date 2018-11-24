@@ -6,6 +6,18 @@ class CommentsController < ApplicationController
     @comments = Comment.all
   end
 
+  # GET /comments/1
+  # GET /comments/1.json
+  def show
+    if Comment.exists?(params[:id])
+      @comment = Comment.find(params[:id])
+    else
+      respond_to do |format|
+        format.json { render json: {comment: @comment.errors }, status: :bad_request }
+      end
+    end
+  end
+
   def my_comments
     if current_user
       @comments = Comment.where(user_id: current_user.id)
@@ -69,15 +81,6 @@ class CommentsController < ApplicationController
           format.json { render json: reply.errors, status: :unprocessable_entity }
         end
       end
-    else
-      redirect_to '/auth/google_oauth2'
-    end
-  end
-
-  def showreply
-    if current_user
-      @comment = Comment.find(params[:id])
-      @submission = @comment.submission
     else
       redirect_to '/auth/google_oauth2'
     end

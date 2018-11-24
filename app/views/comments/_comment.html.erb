@@ -28,7 +28,7 @@
 								<%= comment.cached_votes_score %> points by
         				<%= link_to(comment.user.name, comment.user, class: "hnuser") %>
 								<span class="age">
-									<%= link_to(time_ago_in_words(comment.created_at) + " ago", comment.submission) %>
+									<%= link_to(time_ago_in_words(comment.created_at) + " ago", comment) %>
 								</span>
 								<% if comment.user == current_user %>
 									|
@@ -43,8 +43,7 @@
 								<p>
 									<font size="1">
                     <u>
-
-											<a href="/submissions/<%= comment.submission_id %>/comments/<%= comment.id %>/showreply">reply</a>
+											<%= link_to "reply", comment_path(comment) %>
 										</u>
                   </font>
       					</p>
