@@ -159,7 +159,7 @@ paths:
           schema:
             $ref: "#/definitions/Submission"
         400:
-          description: "Invalid status value"        
+          description: "Invalid status value"
   /newest:
     get:
       tags:
@@ -212,6 +212,31 @@ paths:
           description: "Unauthorized"
         404:
           description: "Not Found"
+  /comments/{commentID}:
+    get:
+      tags:
+      - "comment"
+      summary: "Find comment by ID"
+      description: "Returns a single comment"
+      operationId: "getCommentById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "commentID"
+        in: "path"
+        description: "ID of comment to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Comment"
+        404:
+          description: "Not Found"
+      security:
+        - apiKey: []
 securityDefinitions:
   apiKey:
     type: "apiKey"
