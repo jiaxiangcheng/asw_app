@@ -12,8 +12,11 @@ class CommentsController < ApplicationController
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
+    elsif request.fullpath.split("/")[1] == "submissions"
+      @submission = Submission.find(params[:submission_id])
+      @comments = @submission.replies
     else
-      @comments = Comment.all
+       @comments = Comment.all
     end
   end
 
@@ -27,15 +30,6 @@ class CommentsController < ApplicationController
         format.json { render json: {comment: @comment.errors }, status: :bad_request }
       end
     end
-  end
-
-  def my_comments
-    if current_user
-      @comments = Comment.where(user_id: current_user.id)
-    else
-      @comments = Comment.all
-    end
-    render "index"
   end
 
   # comments I voted on

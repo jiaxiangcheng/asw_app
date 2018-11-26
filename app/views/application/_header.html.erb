@@ -15,7 +15,7 @@
       <%= link_to 'new',  newest_menu_path %>
       |
       <% if current_user %>
-        <%= link_to "threads", my_comments_path %>
+        <%= link_to "threads", my_comments_path(current_user.id) %>
         |
       <% end %>
       <%= link_to 'comments', comments_path %>

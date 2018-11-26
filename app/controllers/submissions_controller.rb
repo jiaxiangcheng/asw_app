@@ -135,9 +135,14 @@ class SubmissionsController < ApplicationController
       if @submission.user != current_user
         @submission.upvote_by current_user
         redirect_to params.key?(:goto) ? params[:goto] : root_path
+        # respond_to do |format|
+        #   format.json { render :show, status: :ok, location: @submission }
+        # end
       end
     else
-      redirect_to '/auth/google_oauth2'
+      respond_to do |format|
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end 
     end
   end
 
@@ -146,9 +151,14 @@ class SubmissionsController < ApplicationController
       if @submission.user != current_user
         @submission.downvote_by current_user
         redirect_to params.key?(:goto) ? params[:goto] : root_path
+        # respond_to do |format|
+        #   format.json { render :show, status: :ok, location: @submission }
+        # end
       end
     else
-      redirect_to '/auth/google_oauth2'
+      respond_to do |format|
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end 
     end
   end
 
@@ -158,6 +168,10 @@ class SubmissionsController < ApplicationController
         @submission.unvote_by current_user
         redirect_to params.key?(:goto) ? params[:goto] : root_path
       end
+    else
+      respond_to do |format|
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end 
     end
   end
 
