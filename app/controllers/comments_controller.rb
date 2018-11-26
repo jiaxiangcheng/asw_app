@@ -115,7 +115,8 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    if current_user
+    if user_is_logged?
+      @comment = Comment.find(params[:id])
       @comment.destroy
       respond_to do |format|
         format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path, notice: 'Comment was successfully destroyed.' }
