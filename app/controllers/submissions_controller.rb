@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   helper ApplicationHelper
-  before_action :set_submission, only: [:show, :edit, :update, :destroy]
+  before_action :set_submission, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote]
 
   # GET /submissions
   # GET /submissions.json
@@ -105,7 +105,7 @@ class SubmissionsController < ApplicationController
           format.json { render json: @submission.errors, status: :unprocessable_entity }
         end
       end
-    else 
+    else
       format.json { render json: @submission.errors, status: :unprocessable_entity }
     end
   end
@@ -119,36 +119,39 @@ class SubmissionsController < ApplicationController
         format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
         format.json { head :no_content }
       end
-    else 
+    else
       format.json { render json: @submission.errors, status: :unprocessable_entity }
     end
   end
 
   def upvote
-    if current_user
-      @submission = Submission.find(params[:id])
-      @submission.upvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @submission.user != current_user
+        @submission.upvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     else
       redirect_to '/auth/google_oauth2'
     end
   end
 
   def downvote
-    if current_user
-      @submission = Submission.find(params[:id])
-      @submission.downvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @submission.user != current_user
+        @submission.downvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     else
       redirect_to '/auth/google_oauth2'
     end
   end
 
   def unvote
-    if current_user
-      @submission = Submission.find(params[:id])
-      @submission.unvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @submission.user != current_user
+        @submission.unvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     end
   end
 

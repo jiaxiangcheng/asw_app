@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_comment, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote]
 
 
   def index
@@ -122,30 +122,33 @@ class CommentsController < ApplicationController
   end
 
   def upvote
-    if current_user
-      @comment = Comment.find(params[:id])
-      @comment.upvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @comment.user != current_user
+        @comment.upvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     else
       redirect_to '/auth/google_oauth2'
     end
   end
 
   def downvote
-    if current_user
-      @comment = Comment.find(params[:id])
-      @comment.downvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @comment.user != current_user
+        @comment.downvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     else
       redirect_to '/auth/google_oauth2'
     end
   end
 
   def unvote
-    if current_user
-      @comment = Comment.find(params[:id])
-      @comment.unvote_by current_user
-      redirect_to params.key?(:goto) ? params[:goto] : root_path
+    if user_is_logged?
+      if @comment.user != current_user
+        @comment.unvote_by current_user
+        redirect_to params.key?(:goto) ? params[:goto] : root_path
+      end
     end
   end
 
