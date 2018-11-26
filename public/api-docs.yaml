@@ -115,8 +115,6 @@ paths:
           description: "The request has been fulfilled and has resulted in one or more new resources being created."
         405:
           description: "Invalid input"
-        500:
-          description: "You need to authorize before to make a request"
     delete:
       tags:
       - "submission"
@@ -170,6 +168,104 @@ paths:
           description: "submission not found"
       security:
         - apiKey: []
+  /submissions/{submissionID}/like:
+    put:
+      tags:
+      - "submission"
+      security:
+        - apiKey: []
+      summary: "Like an exist submission"
+      description: ""
+      operationId: "likeSubmission"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "submissionID"
+        in: "path"
+        description: "ID of submission to like"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: "The request has been fulfilled and has resulted in one or more new resources being created."
+        405:
+          description: "Invalid input"
+  /submissions/{submissionID}/dislike:
+    put:  
+      tags:
+      - "submission"
+      security:
+        - apiKey: []
+      summary: "Dislike an exist submission"
+      description: ""
+      operationId: "dislikeSubmission"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "submissionID"
+        in: "path"
+        description: "ID of submission to dislike"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: "The request has been fulfilled and has resulted in one or more new resources being created."
+        405:
+          description: "Invalid input"
+  /submissions/{submissionID}/unvote:
+    put:  
+      tags:
+      - "submission"
+      security:
+        - apiKey: []
+      summary: "Unvote an exist submission"
+      description: ""
+      operationId: "unvoteSubmission"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "submissionID"
+        in: "path"
+        description: "ID of submission to unvote"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: "The request has been fulfilled and has resulted in one or more new resources being created."
+        405:
+          description: "Invalid input"
+  /submissions/{submissionID}/comments:
+    get:
+      tags:
+      - "submission"
+      summary: "Get all comments with submissionID"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "getAllSubmissionsWithSubmissionID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "submissionID"
+        in: "path"
+        description: "ID of submission from which we want to see its comments"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Submission"
+        400:
+          description: "Invalid status value"
   /voted_submissions:
     get:
       tags:
@@ -180,8 +276,7 @@ paths:
       produces:
       - "application/json"
       parameters: []
-      security:
-        - apiKey: []
+      
       responses:
         200:
           description: "successful operation"
