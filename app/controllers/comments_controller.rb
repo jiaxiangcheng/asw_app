@@ -7,8 +7,10 @@ class CommentsController < ApplicationController
       if user_is_logged?
         @comments = Comment.where(user_id: current_user.id)
       else # not authorized
-        format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        respond_to do |format|
+          format.html { redirect_to '/auth/google_oauth2' }
+          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        end
       end
     else
       @comments = Comment.all
@@ -64,16 +66,12 @@ class CommentsController < ApplicationController
             format.json { render json: {comment: @comment.errors }, status: :bad_request }
           end
         else # trying to comment not existing submission
-            # format.html -> show default rails error page
-            respond_to do |format|
-              format.json { render json: {submission_id: "no submission found for this id"}, status: :not_found }
-            end
+          # format.html -> show default rails error page
+            format.json { render json: {submission_id: "no submission found for this id"}, status: :not_found }
         end
       else # not authorized
-        respond_to do |format|
-          format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-        end
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
       end
     end
   end
@@ -114,10 +112,8 @@ class CommentsController < ApplicationController
           format.json { render json: @comment.errors, status: :bad_request }
         end
       else # unauthorized
-        respond_to do |format|
-          format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field and make sure it matches the user who created the comment"}, status: :unauthorized }
-        end
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it matches the user who created the comment"}, status: :unauthorized }
       end
     end
   end
