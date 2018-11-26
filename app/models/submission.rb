@@ -3,11 +3,11 @@ class Submission < ApplicationRecord
     validate :check_not_both
     validate :correct_url_format
     validates :user, :presence => true
-    
+
     acts_as_votable
 
     belongs_to :user
-    has_many :comments
+    has_many :comments, dependent: :destroy
     has_many :replies, as: :parent, class_name: "Comment", inverse_of: :parent, dependent: :destroy
     private
     def correct_url_format
