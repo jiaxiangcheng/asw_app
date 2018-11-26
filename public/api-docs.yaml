@@ -180,6 +180,8 @@ paths:
       produces:
       - "application/json"
       parameters: []
+      security:
+        - apiKey: []
       responses:
         200:
           description: "successful operation"
