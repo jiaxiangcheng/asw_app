@@ -14,18 +14,16 @@ class SubmissionsController < ApplicationController
       @submissions = Submission.all.order(cached_votes_score: :desc)
     elsif params.key?(:type) && params[:type] == :ask
       @submissions = Submission.all.order(cached_votes_score: :desc).select { |s| s.url == ""}
+    elsif params.key?(:type) && params[:type] == :my_submissions
+      if user_is_logged?
+        @submissions = Submission.where(user_id: current_user.id)
+      else # not authorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end
     else
       @submissions = Submission.all.order(cached_votes_score: :desc)
     end
-  end
-
-  def my_submissions
-    if user_is_logged?
-      @submissions = Submission.where(user_id: current_user.id)
-    else
-      @submissions = Submission.all
-    end
-    render "index"
   end
 
   # the submissions are mine, the votes don't have to be
