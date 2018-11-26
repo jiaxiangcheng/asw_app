@@ -20,5 +20,9 @@
     <% else %>
       <%= link_to pluralize(submission.comments.count, 'comment'), submission %>
     <% end %>
+    <% if submission.user == current_user %>
+      |
+      <%= link_to 'Destroy', submission_path(submission, goto: root_path), method: :delete, data: { confirm: 'Are you sure?'} %>
+    <% end %>
   </td>
 </tr>
