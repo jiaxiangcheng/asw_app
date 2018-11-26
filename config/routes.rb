@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   get 'news' => 'submissions#index', as: :news_menu, type: :points
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
-  get 'my_comments' => 'comments#my_comments', as: :my_comments
-  get 'my_submissions' => 'submissions#my_submissions', as: :my_submissions
+  get 'submissions/user/:id' => 'submissions#index', as: :my_submissions, type: :my_submissions
+  get 'comments/user/:id' => 'comments#index', as: :my_comments, type: :my_comments
   get 'voted_comments' => 'comments#voted_comments', as: :voted_comments
   get 'voted_submissions' => 'submissions#voted_submissions', as: :voted_submissions
 

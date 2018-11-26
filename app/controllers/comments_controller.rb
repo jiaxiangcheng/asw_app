@@ -3,7 +3,16 @@ class CommentsController < ApplicationController
 
 
   def index
-    @comments = Comment.all
+    if params.key?(:type) && params[:type] == :my_comments
+      if user_is_logged?
+        @comments = Comment.where(user_id: current_user.id)
+      else # not authorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end
+    else
+      @comments = Comment.all
+    end
   end
 
   # GET /comments/1
