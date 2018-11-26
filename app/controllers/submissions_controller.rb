@@ -33,9 +33,11 @@ class SubmissionsController < ApplicationController
     if user_is_logged?
       @submissions = Submission.all.select {|s| current_user.voted_for? s }
     else
-      @submissions = Submission.all
+      respond_to do |format|
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end 
     end
-    render "index"
   end
 
   # GET /submissions/ask
