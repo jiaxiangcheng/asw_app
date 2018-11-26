@@ -349,12 +349,12 @@ definitions:
   CommentCreate:
     type: "object"
     properties:
+      submission_id:
+        type: "integer"
+        description: "Unique identifier of the submission the comment belongs to"
       comment:
         type: "object"
         properties:
-          submission_id:
-            type: "integer"
-            description: "Unique identifier of the submission the comment belongs to"
           body:
             type: "string"
             example: "The comment body..."
