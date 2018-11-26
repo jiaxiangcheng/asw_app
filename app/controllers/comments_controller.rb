@@ -42,8 +42,8 @@ class CommentsController < ApplicationController
   def create
     respond_to do |format|
       if user_is_logged?
-        if Submission.exists?(params[:comment][:submission_id])
-          @submission = Submission.find(params[:comment][:submission_id])
+        if Submission.exists?(params[:submission_id])
+          @submission = Submission.find(params[:submission_id])
           @comment = @submission.comments.new(comment_params)
           @comment.user = current_user
           @submission.replies << @comment
@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
         else # trying to comment not existing submission
             # format.html -> show default rails error page
             format.json { render json: {submission_id: "no submission found for this id"}, status: :not_found }
-          end
+        end
       else # not authorized
         format.html { redirect_to '/auth/google_oauth2' }
         format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
