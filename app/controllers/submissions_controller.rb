@@ -18,8 +18,10 @@ class SubmissionsController < ApplicationController
       if user_is_logged?
         @submissions = Submission.where(user_id: current_user.id)
       else # not authorized
-        format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        respond_to do |format|
+          format.html { redirect_to '/auth/google_oauth2' }
+          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        end 
       end
     else
       @submissions = Submission.all.order(cached_votes_score: :desc)
@@ -81,7 +83,7 @@ class SubmissionsController < ApplicationController
             format.json { render :show, status: :created, location: @submission }
           else
             format.html { render :new }
-            format.json { render json: @submission.errors, status: :unprocessable_entity }
+            format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
           end
         end
       end
@@ -100,11 +102,13 @@ class SubmissionsController < ApplicationController
           format.json { render :show, status: :ok, location: @submission }
         else
           format.html { render :edit }
-          format.json { render json: @submission.errors, status: :unprocessable_entity }
+          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
     else
-      format.json { render json: @submission.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end
     end
   end
 
@@ -118,7 +122,9 @@ class SubmissionsController < ApplicationController
         format.json { head :no_content }
       end
     else
-      format.json { render json: @submission.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end
     end
   end
 
