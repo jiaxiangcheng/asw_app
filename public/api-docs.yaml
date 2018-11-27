@@ -554,7 +554,19 @@ paths:
       - "comment"
       summary: "Get all Comments"
       description: "Returns all comments"
-      parameters: []
+      parameters:
+      - name: "filter"
+        in: "query"
+        description: "Filter comments"
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "voted_by_me"
+          default: "available"
+        collectionFormat: "multi"
+      security:
+        - apiKey: []
       responses:
         200:
           description: "OK"
