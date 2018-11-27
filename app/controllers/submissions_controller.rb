@@ -21,7 +21,7 @@ class SubmissionsController < ApplicationController
         respond_to do |format|
           format.html { redirect_to '/auth/google_oauth2' }
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-        end 
+        end
       end
     else
       @submissions = Submission.all.order(cached_votes_score: :desc)
@@ -30,9 +30,12 @@ class SubmissionsController < ApplicationController
 
   # the submissions are mine, the votes don't have to be
   def voted_submissions
-    
+    if current_user
       @submissions = Submission.all.select {|s| current_user.voted_for? s }
-    
+    else
+      @submissions = Submission.all
+    end
+    render "index"
   end
 
   # GET /submissions/ask
@@ -89,7 +92,7 @@ class SubmissionsController < ApplicationController
         format.html { redirect_to '/auth/google_oauth2' }
         format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
       end
-      
+
     end
   end
 
@@ -138,7 +141,7 @@ class SubmissionsController < ApplicationController
     else
       respond_to do |format|
         format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-      end 
+      end
     end
   end
 
@@ -151,7 +154,7 @@ class SubmissionsController < ApplicationController
     else
       respond_to do |format|
         format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-      end 
+      end
     end
   end
 
@@ -164,7 +167,7 @@ class SubmissionsController < ApplicationController
     else
       respond_to do |format|
         format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-      end 
+      end
     end
   end
 
