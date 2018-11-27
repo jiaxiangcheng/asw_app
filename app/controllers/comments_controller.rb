@@ -128,32 +128,46 @@ class CommentsController < ApplicationController
   end
 
   def upvote
-    if user_is_logged?
-      if @comment.user != current_user
+    respond_to do |format|
+      if @comment == nil # no comment exists for id in path
+        format.json { render json: {id: "no comment found for this id"}, status: :not_found }
+      elsif user_is_logged? && @comment.user != current_user
         @comment.upvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the comment"}, status: :unauthorized }
       end
-    else
-      redirect_to '/auth/google_oauth2'
     end
   end
 
   def downvote
-    if user_is_logged?
-      if @comment.user != current_user
+    respond_to do |format|
+      if @comment == nil # no comment exists for id in path
+        format.json { render json: {id: "no comment found for this id"}, status: :not_found }
+      elsif user_is_logged? && @comment.user != current_user
         @comment.downvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the comment"}, status: :unauthorized }
       end
-    else
-      redirect_to '/auth/google_oauth2'
     end
   end
 
   def unvote
-    if user_is_logged?
-      if @comment.user != current_user
+    respond_to do |format|
+      if @comment == nil # no comment exists for id in path
+        format.json { render json: {id: "no comment found for this id"}, status: :not_found }
+      elsif user_is_logged? && @comment.user != current_user
         @comment.unvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the comment"}, status: :unauthorized }
       end
     end
   end
