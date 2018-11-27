@@ -17,6 +17,21 @@ tags:
 - name: "comment"
   description: "Everything about Comments"
 paths:
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Get user by Id"
+      description: "Get one user"
+      operationId: "getUserID"
+      parameters:
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid status value"
   /users/{userID}:
     get:
       tags:
