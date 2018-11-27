@@ -17,6 +17,53 @@ tags:
 - name: "comment"
   description: "Everything about Comments"
 paths:
+  /users/{userID}:
+    get:
+      tags:
+      - "users"
+      summary: "Get user by Id"
+      description: "Get one user"
+      operationId: "getUserID"
+      parameters: 
+      - name: "userID"
+        in: "path"
+        description: "ID of user"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "users"
+      security:
+        - apiKey: []
+      summary: "Edit current user"
+      description: "Edit current user"
+      operationId: "editUser"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of edit user"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "about"
+        description: "About del usuario"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "The request has been fulfilled and has resulted in one or more new resources being created."
+        405:
+          description: "Invalid input"
   /submissions:
     get:
       tags:
@@ -626,6 +673,13 @@ definitions:
         type: "string"
       text:
         type: "string"
+  User:
+    type: object
+    properties:
+      about:
+        type: string
+    xml:
+      name: User
   Comment:
     type: "object"
     properties:

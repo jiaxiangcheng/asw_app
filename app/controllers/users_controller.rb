@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [ :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -10,9 +10,15 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    # if current_user && current_user.id == @user.id
-    #   redirect_to :controller => 'users', :action => 'edit'
-    # end
+    respond_to do |format|
+      if User.exists?(params[:id])
+        @user = User.find(params[:id])
+        format.html { render :show }
+        format.json { render json: @user, status: :ok }
+      else
+        format.json { render json: {user: @user.errors }, status: :bad_request }
+      end
+    end
   end
 
   # GET /users/new
@@ -47,12 +53,25 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+      if user_is_logged? && @user != nil
+        if current_user == @user 
+          if @user.update(user_params)
+            format.html { redirect_to @user, notice: 'User was successfully updated.' }
+            format.json { render json: @user, status: :ok, location: @user }
+          else
+            format.html { render :edit }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        else
+          format.html { redirect_to '/auth/google_oauth2' }
+          format.json { render json: {error: "provide API key in Token header field and make sure it matches the user who created the user"}, status: :unauthorized }
+        end
+      elsif @user == nil
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "Does not exist this user"}, status: :not_found }
       else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it matches the user who created the user"}, status: :unauthorized }
       end
     end
   end
@@ -70,7 +89,11 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      if User.exists?(params[:id])
+        @user = User.find(params[:id])
+      else
+        @user = nil
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
