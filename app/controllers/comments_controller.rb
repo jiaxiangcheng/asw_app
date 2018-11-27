@@ -21,6 +21,14 @@ class CommentsController < ApplicationController
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
+    elsif params.key?(:created_by)
+      if User.find(params[:created_by])
+        @comments = Comment.where(user_id: params[:created_by])
+      else
+        respond_to do |format|
+          format.json { render json: {created_by: "given userId doesn't match any user"}, status: :not_found }
+        end
+      end
     elsif request.fullpath.split("/")[1] == "submissions"
       @submission = Submission.find(params[:submission_id])
       @comments = @submission.replies

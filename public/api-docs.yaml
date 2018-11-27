@@ -565,6 +565,10 @@ paths:
           - "voted_by_me"
           default: "available"
         collectionFormat: "multi"
+      - name: "created_by"
+        in: "query"
+        description: "UserID of creator"
+        type: "integer"
       security:
         - apiKey: []
       responses:
