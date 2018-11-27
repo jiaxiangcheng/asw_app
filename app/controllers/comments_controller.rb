@@ -12,21 +12,12 @@ class CommentsController < ApplicationController
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
-    elsif params.key?(:type) && params[:type] == :my_comments
-      if user_is_logged?
-        @comments = Comment.where(user_id: current_user.id)
-      else # not authorized
-        respond_to do |format|
-          format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-        end
-      end
     elsif params.key?(:created_by)
-      if User.find(params[:created_by])
+      if User.exists?(params[:created_by])
         @comments = Comment.where(user_id: params[:created_by])
       else
         respond_to do |format|
-          format.json { render json: {created_by: "given userId doesn't match any user"}, status: :not_found }
+          format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
         end
       end
     elsif request.fullpath.split("/")[1] == "submissions"
@@ -47,16 +38,6 @@ class CommentsController < ApplicationController
         format.json { render json: {comment_id: "no comment found for this id"}, status: :not_found }
       end
     end
-  end
-
-  # comments I voted on
-  def voted_comments
-    if current_user
-      @comments = Comment.all.select {|c| current_user.voted_for? c }
-    else
-      @comments = Comment.all
-    end
-    render "index"
   end
 
   # POST /comments
