@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     else
       respond_to do |format|
-        format.json { render json: {comment: @comment.errors }, status: :bad_request }
+        format.json { render json: {comment_id: "no comment found for this id"}, status: :not_found }
       end
     end
   end
