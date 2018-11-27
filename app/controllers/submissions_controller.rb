@@ -30,14 +30,9 @@ class SubmissionsController < ApplicationController
 
   # the submissions are mine, the votes don't have to be
   def voted_submissions
-    if user_is_logged?
+    
       @submissions = Submission.all.select {|s| current_user.voted_for? s }
-    else
-      respond_to do |format|
-        format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-      end 
-    end
+    
   end
 
   # GET /submissions/ask
@@ -90,7 +85,11 @@ class SubmissionsController < ApplicationController
         end
       end
     else
-      redirect_to '/auth/google_oauth2'
+      respond_to do |format|
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+      end
+      
     end
   end
 
@@ -134,10 +133,7 @@ class SubmissionsController < ApplicationController
     if user_is_logged?
       if @submission.user != current_user
         @submission.upvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
-        # respond_to do |format|
-        #   format.json { render :show, status: :ok, location: @submission }
-        # end
+        #redirect_to params.key?(:goto) ? params[:goto] : root_path
       end
     else
       respond_to do |format|
@@ -150,10 +146,7 @@ class SubmissionsController < ApplicationController
     if user_is_logged?
       if @submission.user != current_user
         @submission.downvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
-        # respond_to do |format|
-        #   format.json { render :show, status: :ok, location: @submission }
-        # end
+        #redirect_to params.key?(:goto) ? params[:goto] : root_path
       end
     else
       respond_to do |format|
@@ -166,7 +159,7 @@ class SubmissionsController < ApplicationController
     if user_is_logged?
       if @submission.user != current_user
         @submission.unvote_by current_user
-        redirect_to params.key?(:goto) ? params[:goto] : root_path
+        #redirect_to params.key?(:goto) ? params[:goto] : root_path
       end
     else
       respond_to do |format|

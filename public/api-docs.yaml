@@ -130,8 +130,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "submission not found"
-      security:
-        - apiKey: []
     put:
       tags:
       - "submission"
@@ -475,18 +473,17 @@ paths:
     get:
       tags:
       - "submission"
+      security:
+        - apiKey: []
       summary: "Get all voted Submissions by me"
       description: "Multiple status values can be provided with comma separated strings"
       operationId: "getAllSubmissionsVotedByMe"
       produces:
       - "application/json"
       parameters: []
-      
       responses:
         200:
           description: "successful operation"
-          schema:
-            $ref: "#/definitions/Submission"
         400:
           description: "Invalid status value"
   /news:
@@ -615,53 +612,6 @@ securityDefinitions:
     name: "Token"
     in: "header"
 definitions:
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-        default: false
-    xml:
-      name: "Order"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
   Submission:
     type: "object"
     required:
