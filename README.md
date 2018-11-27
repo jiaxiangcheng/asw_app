@@ -7,7 +7,7 @@ Authors:
 * Nil Font
 
 Heroku deploy:
-https://aswlab.herokuapp.com/
+http://aswlab.herokuapp.com/
 
 git clone ...
 bundle install --without production
