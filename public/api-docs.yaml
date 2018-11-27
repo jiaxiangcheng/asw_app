@@ -21,9 +21,9 @@ paths:
     get:
       tags:
       - "users"
-      summary: "Get user by Id"
-      description: "Get one user"
-      operationId: "getUserID"
+      summary: "Get all users"
+      description: "Get all users"
+      operationId: "getAllUsers"
       parameters:
       responses:
         200:
