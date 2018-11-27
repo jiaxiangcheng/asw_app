@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote]
+  before_action :set_comment, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote, :createreply]
 
 
   def index
@@ -71,23 +71,25 @@ class CommentsController < ApplicationController
   end
 
   def createreply
-    if current_user
-      @comment = Comment.find(params[:id])
-      reply = @comment.replies.new(reply_params)
-      reply.user = current_user
-      reply.submission = @comment.submission
-      reply.parent = @comment
-      respond_to do |format|
+    respond_to do |format|
+      if @comment == nil # no comment exists for id in path
+        format.json { render json: {id: "no comment found for this id"}, status: :not_found }
+      elsif user_is_logged?
+        reply = @comment.replies.new(reply_params)
+        reply.user = current_user
+        reply.submission = @comment.submission
+        reply.parent = @comment
         if reply.save
           format.html { redirect_to reply.submission, notice: 'Reply was successfully created.' }
           format.json { render json: reply, status: :created, location: reply }
         else
           format.html { render action: "new" }
-          format.json { render json: reply.errors, status: :unprocessable_entity }
+          format.json { render json: {reply: reply.errors }, status: :bad_request }
         end
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
       end
-    else
-      redirect_to '/auth/google_oauth2'
     end
   end
 
