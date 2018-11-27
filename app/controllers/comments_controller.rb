@@ -20,9 +20,15 @@ class CommentsController < ApplicationController
           format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
         end
       end
-    elsif request.fullpath.split("/")[1] == "submissions"
-      @submission = Submission.find(params[:submission_id])
-      @comments = @submission.replies
+    elsif params.key?(:submission_id)
+      if Submission.exists?(params[:submission_id])
+        @submission = Submission.find(params[:submission_id])
+        @comments = @submission.comments
+      else
+        respond_to do |format|
+          format.json { render json: {submission_id: "given submission_id doesn't match any existing submission"}, status: :not_found }
+        end
+      end
     else
        @comments = Comment.all
     end
