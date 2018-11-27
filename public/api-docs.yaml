@@ -24,7 +24,7 @@ paths:
       summary: "Get all users"
       description: "Get all users"
       operationId: "getAllUsers"
-      parameters:
+      parameters: []
       responses:
         200:
           description: "successful operation"
