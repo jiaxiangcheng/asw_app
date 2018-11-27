@@ -133,40 +133,46 @@ class SubmissionsController < ApplicationController
   end
 
   def upvote
-    if user_is_logged?
-      if @submission.user != current_user
+    respond_to do |format|
+      if @submission == nil # no submission exists for id in path
+        format.json { render json: {id: "no submission found for this id"}, status: :not_found }
+      elsif user_is_logged? && @submission.user != current_user
         @submission.upvote_by current_user
-        #redirect_to params.key?(:goto) ? params[:goto] : root_path
-      end
-    else
-      respond_to do |format|
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the submission"}, status: :unauthorized }
       end
     end
   end
 
   def downvote
-    if user_is_logged?
-      if @submission.user != current_user
+    respond_to do |format|
+      if @submission == nil # no submission exists for id in path
+        format.json { render json: {id: "no submission found for this id"}, status: :not_found }
+      elsif user_is_logged? && @submission.user != current_user
         @submission.downvote_by current_user
-        #redirect_to params.key?(:goto) ? params[:goto] : root_path
-      end
-    else
-      respond_to do |format|
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the submission"}, status: :unauthorized }
       end
     end
   end
 
   def unvote
-    if user_is_logged?
-      if @submission.user != current_user
+    respond_to do |format|
+      if @submission == nil # no submission exists for id in path
+        format.json { render json: {id: "no submission found for this id"}, status: :not_found }
+      elsif user_is_logged? && @submission.user != current_user
         @submission.unvote_by current_user
-        #redirect_to params.key?(:goto) ? params[:goto] : root_path
-      end
-    else
-      respond_to do |format|
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.html { redirect_to params.key?(:goto) ? params[:goto] : root_path }
+        format.json { head :no_content }
+      else # unauthorized
+        format.html { redirect_to '/auth/google_oauth2' }
+        format.json { render json: {error: "provide API key in Token header field and make sure it's from a different user than the one who created the submission"}, status: :unauthorized }
       end
     end
   end
