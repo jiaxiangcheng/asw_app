@@ -38,11 +38,11 @@
                   </p>
 
                   <p><%= link_to 'Comments', comments_path(created_by: @user.id) %></p>
-                  <p><%= link_to 'Submissions', my_submissions_path %></p>
+                  <p><%= link_to 'Submissions', submissions_path(created_by: @user.id) %></p>
 
                   <% if current_user && current_user.id == @user.id %>
                     <p><%= link_to 'Upvoted Comments', comments_path(filter: :voted_by_me) %></p>
-                    <p><%= link_to 'Upvoted Submissions', voted_submissions_path %></p>
+                    <p><%= link_to 'Upvoted Submissions', submissions_path(filter: :voted_by_me) %></p>
                     <%= link_to '<button type="button">Edit User</button>'.html_safe, edit_user_path(@user) %>
                   <% end %>
 

@@ -99,9 +99,19 @@ paths:
       summary: "Get all Submissions"
       description: "Get all Submissions"
       operationId: "getAllSubmissions"
-      produces:
-      - "application/json"
-      parameters: []
+      parameters:
+      - name: "filter"
+        in: "query"
+        description: "Filter submissions"
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "voted_by_me"
+          default: "available"
+        collectionFormat: "multi"
+      security:
+        - apiKey: []
       responses:
         200:
           description: "successful operation"
@@ -497,23 +507,6 @@ paths:
           description: "Unauthorized"
         404:
           description: "Not Found"
-  /voted_submissions:
-    get:
-      tags:
-      - "submission"
-      security:
-        - apiKey: []
-      summary: "Get all voted Submissions by me"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "getAllSubmissionsVotedByMe"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-        400:
-          description: "Invalid status value"
   /news:
     get:
       tags:

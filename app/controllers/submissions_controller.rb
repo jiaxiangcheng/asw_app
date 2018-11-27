@@ -7,35 +7,32 @@ class SubmissionsController < ApplicationController
   # GET /submissions/news
   # GET /submissions/news.json
   def index
-    @users = User.all
-    if params.key?(:type) && params[:type] == :created_at
-      @submissions = Submission.all.order("created_at DESC")
-    elsif params.key?(:type) && params[:type] == :points
-      @submissions = Submission.all.order(cached_votes_score: :desc)
-    elsif params.key?(:type) && params[:type] == :ask
-      @submissions = Submission.all.order(cached_votes_score: :desc).select { |s| s.url == ""}
-    elsif params.key?(:type) && params[:type] == :my_submissions
+    if params.key?(:filter) && params[:filter] == "voted_by_me"
       if user_is_logged?
-        @submissions = Submission.where(user_id: current_user.id)
-      else # not authorized
+        @submissions = Submission.all.order(cached_votes_score: :desc).select {|s| current_user.voted_for? s }
+      else
         respond_to do |format|
           format.html { redirect_to '/auth/google_oauth2' }
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
+    elsif params.key?(:created_by)
+      if User.exists?(params[:created_by])
+        @submissions = Submission.where(user_id: params[:created_by])
+      else
+        respond_to do |format|
+          format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
+        end
+      end
+    elsif params.key?(:type) && params[:type] == :created_at
+      @submissions = Submission.all.order("created_at DESC")
+    elsif params.key?(:type) && params[:type] == :points
+      @submissions = Submission.all.order(cached_votes_score: :desc)
+    elsif params.key?(:type) && params[:type] == :ask
+      @submissions = Submission.all.order(cached_votes_score: :desc).select { |s| s.url == ""}
     else
       @submissions = Submission.all.order(cached_votes_score: :desc)
     end
-  end
-
-  # the submissions are mine, the votes don't have to be
-  def voted_submissions
-    if current_user
-      @submissions = Submission.all.select {|s| current_user.voted_for? s }
-    else
-      @submissions = Submission.all
-    end
-    render "index"
   end
 
   # GET /submissions/ask

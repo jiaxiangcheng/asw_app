@@ -23,8 +23,6 @@ Rails.application.routes.draw do
   get 'news' => 'submissions#index', as: :news_menu, type: :points
   get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
-  get 'submissions/user/:id' => 'submissions#index', as: :my_submissions, type: :my_submissions
-  get 'voted_submissions' => 'submissions#voted_submissions', as: :voted_submissions
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
