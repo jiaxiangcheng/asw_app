@@ -17,19 +17,6 @@ tags:
 - name: "comment"
   description: "Everything about Comments"
 paths:
-  /ask:
-    get:
-      tags:
-      - "submission"
-      summary: "Get all asks"
-      description: "Get all asks"
-      operationId: "getAllAsks"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-        400:
-          description: "Invalid status value"
   /users:
     get:
       tags:
@@ -104,6 +91,24 @@ paths:
         in: "query"
         description: "Filter submissions"
         type: "boolean"
+      - name: "created_by"
+        in: "query"
+        description: "UserID of creator"
+        type: "integer"
+      - name: "type"
+        in: "query"
+        description: "submission type"
+        type: "string"
+        enum:
+        - "ask"
+        - "url"
+      - name: "sort_by"
+        in: "query"
+        description: "submission type"
+        type: "string"
+        enum:
+        - "created_at"
+        - "points"
       security:
         - apiKey: []
       responses:
