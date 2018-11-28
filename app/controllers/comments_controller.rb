@@ -3,24 +3,9 @@ class CommentsController < ApplicationController
 
 
   def index
-    if params.key?(:filter) && params[:filter] == "voted_by_me"
-      if user_is_logged?
-        @comments = Comment.all.select {|c| current_user.voted_for? c }
-      else
-        respond_to do |format|
-          format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
-        end
-      end
-    elsif params.key?(:created_by)
-      if User.exists?(params[:created_by])
-        @comments = Comment.where(user_id: params[:created_by])
-      else
-        respond_to do |format|
-          format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
-        end
-      end
-    elsif params.key?(:submission_id)
+    # get initial comment list
+    @comments = Comment.all # all comments
+    if params.key?(:submission_id) # all comments of a submission
       if Submission.exists?(params[:submission_id])
         @submission = Submission.find(params[:submission_id])
         @comments = @submission.comments
@@ -29,9 +14,29 @@ class CommentsController < ApplicationController
           format.json { render json: {submission_id: "given submission_id doesn't match any existing submission"}, status: :not_found }
         end
       end
-    else
-       @comments = Comment.all
     end
+    # filter comments
+    if params.key?(:voted_by_me) # filter by voter
+      if user_is_logged?
+        @comments = @comments.select {|c| current_user.voted_for? c }
+      else
+        respond_to do |format|
+          format.html { redirect_to '/auth/google_oauth2' }
+          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        end
+      end
+    end
+    if params.key?(:created_by) # filter by creator
+      if User.exists?(params[:created_by])
+        @comments = @comments.select {|c| c.user.id.to_s == params[:created_by] }
+      else
+        respond_to do |format|
+          format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
+        end
+      end
+    end
+    # sort comments
+    @comments = @comments.sort_by {|c| c.created_at }
   end
 
   # GET /comments/1

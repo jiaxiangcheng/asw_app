@@ -100,16 +100,10 @@ paths:
       description: "Get all Submissions"
       operationId: "getAllSubmissions"
       parameters:
-      - name: "filter"
+      - name: "voted_by_me"
         in: "query"
         description: "Filter submissions"
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "voted_by_me"
-          default: "available"
-        collectionFormat: "multi"
+        type: "boolean"
       security:
         - apiKey: []
       responses:
@@ -342,6 +336,14 @@ paths:
         required: true
         type: "integer"
         format: "int64"
+      - name: "voted_by_me"
+        in: "query"
+        description: "To filter the ones I voted on (parameter value irrelevant)"
+        enum: [active]
+      - name: "created_by"
+        in: "query"
+        description: "UserID of creator"
+        type: "integer"
       responses:
         200:
           description: "successful operation"
@@ -548,16 +550,10 @@ paths:
       summary: "Get all Comments"
       description: "Returns all comments"
       parameters:
-      - name: "filter"
+      - name: "voted_by_me"
         in: "query"
-        description: "Filter comments"
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "voted_by_me"
-          default: "available"
-        collectionFormat: "multi"
+        description: "To filter the ones I voted on (parameter value irrelevant)"
+        enum: [active]
       - name: "created_by"
         in: "query"
         description: "UserID of creator"
