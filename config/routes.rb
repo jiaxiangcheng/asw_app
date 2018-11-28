@@ -29,7 +29,8 @@ Rails.application.routes.draw do
   get 'users/:uid' => 'users#index'
   get 'logout', to: 'sessions#destroy', as: :logout
 
-  get '/api', :to => redirect('/swagger-editor/index.html?url=/api-docs.yaml'), as: :swagger_editor
+  get '/api-editor', :to => redirect('/swagger-editor/index.html?url=/api-docs.yaml'), as: :swagger_editor
+  get '/api-ui', :to => redirect('/swagger-ui/dist/index.html?url=/api-docs.yaml'), as: :swagger_ui
 
   # custom error pages (not stack trace)
   get "/404" => "errors#not_found"
