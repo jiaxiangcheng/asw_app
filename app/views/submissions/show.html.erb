@@ -25,7 +25,7 @@
             </td>
             <td class="title">
               <a href="<%= @submission.url %>" class="storylink"><%= @submission.title %></a>
-              <% if is_url?(@submission) %>
+              <% if @submission.is_url? %>
                 <span class="sitebit comhead">
                   (<a href="<%= submissions_path %>?site=<%= shorten_url(@submission.url) %>"><span class="sitestr"><%= shorten_url(@submission.url) %></span></a>)
                 </span>
