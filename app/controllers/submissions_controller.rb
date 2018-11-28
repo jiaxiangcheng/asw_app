@@ -1,5 +1,5 @@
 class SubmissionsController < ApplicationController
-  helper ApplicationHelper
+  helper ApplicationHelper, SubmissionsHelper
   before_action :set_submission, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote]
 
   # GET /submissions
@@ -7,31 +7,44 @@ class SubmissionsController < ApplicationController
   # GET /submissions/news
   # GET /submissions/news.json
   def index
-    if params.key?(:filter) && params[:filter] == "voted_by_me"
+    # get initial submission list
+    @submissions = Submission.all
+    # filter submissions
+    if params.key?(:voted_by_me) # filter by voter
       if user_is_logged?
-        @submissions = Submission.all.order(cached_votes_score: :desc).select {|s| current_user.voted_for? s }
+        @submissions = @submissions.select {|s| current_user.voted_for? s }
       else
         respond_to do |format|
           format.html { redirect_to '/auth/google_oauth2' }
           format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
         end
       end
-    elsif params.key?(:created_by)
+    end
+    if params.key?(:created_by) # filter by creator
       if User.exists?(params[:created_by])
-        @submissions = Submission.where(user_id: params[:created_by])
+        @submissions = @submissions.select {|s| s.user.id.to_s == params[:created_by] }
       else
         respond_to do |format|
           format.json { render json: {created_by: "given userID doesn't match any existing user"}, status: :not_found }
         end
       end
-    elsif params.key?(:type) && params[:type] == :created_at
-      @submissions = Submission.all.order("created_at DESC")
-    elsif params.key?(:type) && params[:type] == :points
-      @submissions = Submission.all.order(cached_votes_score: :desc)
-    elsif params.key?(:type) && params[:type] == :ask
-      @submissions = Submission.all.order(cached_votes_score: :desc).select { |s| s.url == ""}
-    else
-      @submissions = Submission.all.order(cached_votes_score: :desc)
+    end
+    if params.key?(:type) # filter by submission type
+      if params[:type] == "ask"
+        @submissions = @submissions.select {|s| s.is_ask? }
+      elsif params[:type] == "url"
+        @submissions = @submissions.select {|s| s.is_url? }
+      end
+    end
+    # sort submissions (default: points)
+    if params.key?(:sort_by)
+      if params[:sort_by] == "created_at"
+        @submissions = @submissions.sort_by {|s| s.created_at }
+      elsif params[:sort_by] == "points"
+        @submissions = @submissions.sort_by {|s| -s.cached_votes_score }
+      else
+        @submissions = @submissions.sort_by {|s| -s.cached_votes_score }
+      end
     end
   end
 

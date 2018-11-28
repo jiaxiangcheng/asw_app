@@ -18,10 +18,10 @@ Rails.application.routes.draw do
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'submissions#index', type: :points
+  root 'submissions#index'
 
-  get 'news' => 'submissions#index', as: :news_menu, type: :points
-  get 'newest' => 'submissions#index', as: :newest_menu, type: :created_at
+  get 'news' => 'submissions#index', as: :news_menu
+  get 'newest' => 'submissions#index', as: :newest_menu, sort_by: :created_at
   get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth

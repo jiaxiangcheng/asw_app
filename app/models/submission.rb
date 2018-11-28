@@ -9,6 +9,14 @@ class Submission < ApplicationRecord
     belongs_to :user
     has_many :comments, dependent: :destroy
     has_many :replies, as: :parent, class_name: "Comment", inverse_of: :parent, dependent: :destroy
+
+    def is_ask?()
+      return url == ""
+    end
+    def is_url?()
+      return text == ""
+    end
+
     private
     def correct_url_format
         unless url.blank?
@@ -22,6 +30,4 @@ class Submission < ApplicationRecord
         errors.add(:base, "Specify a text or a url, not both!")
         end
     end
-
-
 end
