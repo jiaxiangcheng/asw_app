@@ -90,7 +90,7 @@ paths:
       - name: "voted_by_me"
         in: "query"
         description: "Filter submissions"
-        type: "boolean"
+        enum: [active]
       - name: "created_by"
         in: "query"
         description: "UserID of creator"
