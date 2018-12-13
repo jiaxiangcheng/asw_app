@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   get 'news' => 'submissions#index', as: :news_menu
   get 'newest' => 'submissions#index', as: :newest_menu, sort_by: "created_at"
-  get 'ask' => 'submissions#index', as: :ask_menu, type: :ask
+  get 'ask' => 'submissions#index', as: :ask_menu, type: "ask"
 
   get 'auth/:provider/callback', to: 'sessions#create', as: :auth
   get 'auth/failure', to: redirect('/')
