@@ -90,6 +90,7 @@ paths:
       - name: "voted_by_me"
         in: "query"
         description: "Filter submissions"
+        type: "string"
         enum: [active]
       - name: "created_by"
         in: "query"
@@ -344,6 +345,7 @@ paths:
       - name: "voted_by_me"
         in: "query"
         description: "To filter the ones I voted on (parameter value irrelevant)"
+        type: "boolean"
         enum: [active]
       - name: "created_by"
         in: "query"
@@ -558,6 +560,7 @@ paths:
       - name: "voted_by_me"
         in: "query"
         description: "To filter the ones I voted on (parameter value irrelevant)"
+        type: "boolean"
         enum: [active]
       - name: "created_by"
         in: "query"
