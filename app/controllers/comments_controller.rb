@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
       else
         respond_to do |format|
           format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+          format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
         end
       end
     end
@@ -74,7 +74,7 @@ class CommentsController < ApplicationController
         end
       else # not authorized
         format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
       end
     end
   end
@@ -97,7 +97,7 @@ class CommentsController < ApplicationController
         end
       else # unauthorized
         format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
       end
     end
   end

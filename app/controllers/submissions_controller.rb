@@ -16,7 +16,7 @@ class SubmissionsController < ApplicationController
       else
         respond_to do |format|
           format.html { redirect_to '/auth/google_oauth2' }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+          format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
         end
       end
     end
@@ -93,14 +93,14 @@ class SubmissionsController < ApplicationController
             format.json { render :show, status: :created, location: @submission }
           else
             format.html { render :new }
-            format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+            format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
           end
         end
       end
     else
       respond_to do |format|
         format.html { redirect_to '/auth/google_oauth2' }
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
       end
 
     end
@@ -116,12 +116,12 @@ class SubmissionsController < ApplicationController
           format.json { render :show, status: :ok, location: @submission }
         else
           format.html { render :edit }
-          format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+          format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
         end
       end
     else
       respond_to do |format|
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
       end
     end
   end
@@ -137,7 +137,7 @@ class SubmissionsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: {error: "provide API key in Token header field"}, status: :unauthorized }
+        format.json { render json: {error: "provide valid API key in Token header field"}, status: :unauthorized }
       end
     end
   end
