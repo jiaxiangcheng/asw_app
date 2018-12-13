@@ -39,7 +39,7 @@ class SubmissionsController < ApplicationController
     # sort submissions (default: points)
     if params.key?(:sort_by)
       if params[:sort_by] == "created_at"
-        @submissions = @submissions.sort_by {|s| s.created_at }
+        @submissions = @submissions.sort_by {|s| s.created_at }.reverse
       elsif params[:sort_by] == "points"
         @submissions = @submissions.sort_by {|s| -s.cached_votes_score }
       else
