@@ -2,3 +2,4 @@ json.extract! submission, :id, :title, :url, :text, :user_id, :created_at, :upda
 json.points submission.cached_votes_score
 json.location submission_url(submission, format: :json)
 json.comment_number submission.comments.count
+json.author submission.user.name
