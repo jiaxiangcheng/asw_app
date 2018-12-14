@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181120161052) do
+ActiveRecord::Schema.define(version: 20181213224907) do
 
   create_table "comments", force: :cascade do |t|
     t.integer "submission_id"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20181120161052) do
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "expires_at"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
@@ -58,7 +68,6 @@ ActiveRecord::Schema.define(version: 20181120161052) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "about"
-    t.string "token"
   end
 
   create_table "votes", force: :cascade do |t|

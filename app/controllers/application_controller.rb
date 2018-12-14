@@ -3,12 +3,16 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   def current_user
+    # refresh all session tokens
+    Token.all {|t| t.refresh_if_expired }
+
     if session.key?(:user_id) && User.exists?(session[:user_id])
       # logged in
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    elsif request.headers.key?(:Token) && User.exists?(token: request.headers[:Token])
+    elsif request.headers.key?(:Token) && Token.exists?(access_token: request.headers[:Token])
       # API call with valid token
-      @current_user = User.find_by(token: request.headers[:Token])
+      token = Token.find_by(access_token: request.headers[:Token])
+      @current_user = token.user
     else
        # not authenticated
       @current_user = nil
