@@ -85,7 +85,6 @@ class SubmissionsController < ApplicationController
       else # create new submission
         @submission = current_user.submissions.create(submission_params)
         @submission.created_at = Time.now()
-        @submission.num_comments = 0
 
         respond_to do |format|
           if @submission.save
