@@ -9,12 +9,12 @@ class User < ApplicationRecord
   validates :email, presence: true
 
   def self.from_omniauth(auth)
-      where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
-        # user.provider = auth.provider -> set by first_or_initialize
-        # user.uid = auth.uid -> set by first_or_initialize
-        user.name = auth.info.name
-        user.email = auth.info.email
-        user.save!
-      end
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+      # user.provider = auth.provider -> set by first_or_initialize
+      # user.uid = auth.uid -> set by first_or_initialize
+      user.name = auth.info.name
+      user.email = auth.info.email
+      user.save!
     end
+  end
 end
