@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 
+# from: https://www.twilio.com/blog/2014/09/gmail-api-oauth-rails.html
 class Token < ActiveRecord::Base
   belongs_to :user
   validates :access_token, :presence => true
