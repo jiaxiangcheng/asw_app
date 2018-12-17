@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
       # API call with valid token
       token = Token.find_by(access_token: request.headers[:Token])
       @current_user = token.user
+    elsif request.headers.key?(:Token) && User.exists?(name: request.headers[:Token])
+      @current_user = User.find_by(name: request.headers[:Token])
     else
        # not authenticated
       @current_user = nil
