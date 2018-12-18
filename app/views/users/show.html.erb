@@ -28,7 +28,8 @@
                   <% if current_user && current_user.id == @user.id %>
                     <p>
                       <strong>Token:</strong>
-                      <%= @user.token.access_token %>
+                      <!-- <%= @user.token.access_token %> -->
+                      <%= @user.name %>
                     </p>
                   <% end %>
 
